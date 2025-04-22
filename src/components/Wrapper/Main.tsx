@@ -5,7 +5,7 @@ type Props = {
 };
 
 const Main = ({ children }: Props) => {
-  return <main>{children}</main>;
+  return <main className="flex flex-1">{children}</main>;
 };
 
 export default Main;

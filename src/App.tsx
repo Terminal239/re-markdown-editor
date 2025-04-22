@@ -1,26 +1,29 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import Preview from "./components/Preview";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Wrapper/Main";
-import { AppContext, AppDispatchContext } from "./context/AppContext";
-import { documentReducer, initialDocuments } from "./reducer/document";
+import { DispatchContext, StateContext } from "./context/AppContext";
+import { documentReducer, state } from "./reducer/document";
+
+type Props = {};
 
 const App = (props: Props) => {
-  const [documents, dispatch] = useReducer(documentReducer, initialDocuments);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [documents, dispatch] = useReducer(documentReducer, state);
 
   return (
-    <AppContext value={documents}>
-      <AppDispatchContext value={dispatch}>
-        <Header />
+    <StateContext value={documents}>
+      <DispatchContext value={dispatch}>
+        <Header sidebarExpanded={sidebarExpanded} setSidebarExpanded={setSidebarExpanded} />
         <Main>
-          <Sidebar />
+          {sidebarExpanded && <Sidebar />}
           <Editor />
           <Preview />
         </Main>
-      </AppDispatchContext>
-    </AppContext>
+      </DispatchContext>
+    </StateContext>
   );
 };
 
