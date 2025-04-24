@@ -2,7 +2,7 @@ import "@fontsource-variable/source-code-pro";
 import { ScrollSyncPane } from "react-scroll-sync";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
-import { IconEyeOpen, IconEyeSlash } from "../Icons";
+import PaneHeader from "../Reusable/PaneHeader";
 
 type Props = {};
 
@@ -31,22 +31,17 @@ const Editor = (props: Props) => {
     });
   };
 
+  if (!isEditorExpanded) {
+    return null;
+  }
+
   return (
-    isEditorExpanded && (
-      <div className="flex-1 border-r border-gray-500/40 flex flex-col overflow-hidden">
-        <div className="bg-gray-200 px-4 py-2 items-center flex">
-          Markdown
-          <button className="ml-auto md:hidden" onClick={toggleEditor}>
-            {isEditorExpanded ? <IconEyeSlash className="hover:text-gray-500" /> : <IconEyeOpen className="hover:text-gray-500" />}
-          </button>
-        </div>
-        <div className="p-1 flex-1">
-          <ScrollSyncPane>
-            <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={editing.content} className="text-sm p-3 size-full overflow-y-auto focus:outline-2 resize-none" onChange={handleEditing} />
-          </ScrollSyncPane>
-        </div>
-      </div>
-    )
+    <div className="flex-1 border-r border-gray-500/40 flex flex-col overflow-hidden min-h-0">
+      <PaneHeader title="Markdown" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} toggleButtonClassName="ml-auto md:hidden" />
+      <ScrollSyncPane>
+        <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={editing.content} className="text-sm p-3 size-full overflow-y-auto focus:outline-2 resize-none block" onChange={handleEditing} />
+      </ScrollSyncPane>
+    </div>
   );
 };
 
