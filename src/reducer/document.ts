@@ -18,7 +18,7 @@ export interface StateAction {
   document: Document;
 }
 
-export type Action = StateAction | { type: "delete" };
+export type Action = StateAction | { type: "delete" } | { type: "save" };
 
 export const createDocument = (): Document => ({
   id: +(Math.random() * 10000000).toFixed(0),
@@ -50,10 +50,14 @@ export const documentReducer = (state: State, action: Action): State => {
         editing: action.document,
       };
     case "save": {
+      const updated: Document = {
+        ...state.editing,
+        updatedAt: new Date(),
+      };
       const newState: State = {
         ...state,
-        editing: action.document,
-        documents: state.documents.map((document) => (document.id === action.document.id ? action.document : document)),
+        editing: updated,
+        documents: state.documents.map((document) => (document.id === updated.id ? updated : document)),
       };
       saveToLocalStorage<State>("appState", newState);
       return newState;
@@ -78,14 +82,27 @@ export const documentReducer = (state: State, action: Action): State => {
       saveToLocalStorage<State>("appState", newState);
       return newState;
     }
-    case "edit":
-      return {
+    case "edit": {
+      const newState: State = {
         ...state,
         editing: {
           ...action.document,
           updatedAt: new Date(),
         },
       };
+      saveToLocalStorage<State>("appState", newState);
+      return newState;
+    }
+    case "rename": {
+      const newState: State = {
+        ...state,
+        editing: action.document,
+        documents: state.documents.map((document) => (document.id === action.document.id ? action.document : document)),
+      };
+      console.log(newState);
+      saveToLocalStorage<State>("appState", newState);
+      return newState;
+    }
     default: {
       throw Error("Unknown action: " + action.type);
     }

@@ -25,7 +25,7 @@ const Header = (props: Props) => {
   };
 
   const toggleEditing = () => {
-    if (isEditing) handleSaveDocument();
+    if (isEditing) handleRenameDocument();
 
     setIsEditing((prev) => !prev);
   };
@@ -45,11 +45,6 @@ const Header = (props: Props) => {
 
     dispatch({
       type: "save",
-      document: {
-        ...editing,
-        name: documentName,
-        updatedAt: new Date(),
-      },
     });
 
     setTimeout(() => {
@@ -64,6 +59,24 @@ const Header = (props: Props) => {
       handleSaveDocument();
     }, 30000);
   };
+
+  const handleRenameDocument = () => {
+    dispatch({
+      type: "rename",
+      document: {
+        ...editing,
+        name: documentName,
+        updatedAt: new Date(),
+      },
+    });
+  };
+
+  document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "s") {
+      event.preventDefault();
+      handleSaveDocument();
+    }
+  });
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
