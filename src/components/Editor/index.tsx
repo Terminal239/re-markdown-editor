@@ -1,3 +1,4 @@
+import { ScrollSyncPane } from "react-scroll-sync";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 
 type Props = {};
@@ -19,8 +20,13 @@ const Editor = (props: Props) => {
   };
 
   return (
-    <div className="flex-1 flex border overflow-y-auto">
-      <textarea value={editing.content} className="p-2 flex-1 resize-none" onChange={handleEditing} />
+    <div className="flex-1 border-r border-gray-500/40 flex flex-col overflow-hidden">
+      <div className="bg-gray-200 px-4 py-2">Markdown</div>
+      <div className="p-1 flex-1">
+        <ScrollSyncPane>
+          <textarea value={editing.content} className="p-3 size-full overflow-y-auto focus:outline-2 resize-none" onChange={handleEditing} />\
+        </ScrollSyncPane>
+      </div>
     </div>
   );
 };

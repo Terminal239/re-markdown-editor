@@ -51,6 +51,19 @@ export const documentReducer = (state: State, action: StateAction): State => {
         editing: action.document,
         documents: state.documents.map((document) => (document.id === action.document.id ? action.document : document)),
       };
+    case "delete":
+      if (state.documents.length === 1)
+        return {
+          ...state,
+          editing: action.document,
+          documents: [action.document],
+        };
+      else
+        return {
+          ...state,
+          editing: action.document,
+          documents: state.documents.filter((document) => document.id !== state.editing.id),
+        };
     case "edit":
       return {
         ...state,

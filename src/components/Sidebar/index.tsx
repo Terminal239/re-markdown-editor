@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { formatDistance } from "date-fns";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { createDocument, Document } from "../../reducer/document";
+import { IconDocument } from "../Icons";
 
 type Props = {};
 
@@ -33,12 +34,15 @@ const Sidebar = (props: Props) => {
       {documents
         .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
         .map((document) => (
-          <div className="flex flex-col mb-2 last-of-type:mb-0">
-            <div onClick={() => handleItemClick(document)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer", editing.id === document.id && "text-orange-400")}>
-              <span>{document.name}</span>
-              {editing.id === document.id && <div className="size-[8px] rounded-full bg-orange-400"></div>}
+          <div className="mb-2 flex items-center text-gray-700 gap-2 last-of-type:mb-0 -ml-1">
+            <IconDocument />
+            <div className="flex flex-col">
+              <div onClick={() => handleItemClick(document)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer -mb-1", editing.id === document.id && "text-orange-400")}>
+                <span>{document.name}.md</span>
+                {editing.id === document.id && <div className="size-[8px] rounded-full bg-orange-400"></div>}
+              </div>
+              <span className="text-[12px]">{formatDate(document.updatedAt)}</span>
             </div>
-            <span className="text-sm text-gray-700">{formatDate(document.updatedAt)}</span>
           </div>
         ))}
     </aside>
