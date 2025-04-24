@@ -1,3 +1,4 @@
+import "@fontsource-variable/source-code-pro";
 import { ScrollSyncPane } from "react-scroll-sync";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 
@@ -24,7 +25,7 @@ const Editor = (props: Props) => {
       <div className="bg-gray-200 px-4 py-2">Markdown</div>
       <div className="p-1 flex-1">
         <ScrollSyncPane>
-          <textarea value={editing.content} className="p-3 size-full overflow-y-auto focus:outline-2 resize-none" onChange={handleEditing} />\
+          <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={editing.content} className="p-3 size-full overflow-y-auto focus:outline-2 resize-none" onChange={handleEditing} />
         </ScrollSyncPane>
       </div>
     </div>

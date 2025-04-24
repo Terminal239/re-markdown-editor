@@ -11,6 +11,9 @@ importers:
       '@fontsource-variable/dm-sans':
         specifier: ^5.2.5
         version: 5.2.5
+      '@fontsource-variable/source-code-pro':
+        specifier: ^5.2.5
+        version: 5.2.5
       '@tailwindcss/vite':
         specifier: ^4.1.4
         version: 4.1.4(vite@6.3.2(jiti@2.4.2)(lightningcss@1.29.2))
@@ -354,6 +357,9 @@ packages:
 
   '@fontsource-variable/dm-sans@5.2.5':
     resolution: {integrity: sha512-ynWdb1Ncn5ywUOE6OkTsvgjkiZKj+xM/GS2iVE47MBvS3AlfOSyOy3xynfkQsM3ngaxdCamT/06hZGAgPmao0A==}
+
+  '@fontsource-variable/source-code-pro@5.2.5':
+    resolution: {integrity: sha512-Mi0+uddn7+wE2hytXVG4RN7TJ8aLU6SU/4GVxBRgkaGsI/WQ3ir3uSzbUGBmG7EnEGQkenr21eVmDHdba2RBKA==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1881,6 +1887,8 @@ snapshots:
       levn: 0.4.1
 
   '@fontsource-variable/dm-sans@5.2.5': {}
+
+  '@fontsource-variable/source-code-pro@5.2.5': {}
 
   '@humanfs/core@0.19.1': {}
 
