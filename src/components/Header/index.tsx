@@ -96,7 +96,7 @@ const Header = (props: Props) => {
         <div className="flex items-center gap-2 md:border-l md:pl-4">
           <IconDocument className="hidden md:block" />
           <div className="flex flex-col">
-            <span className="text-sm text-gray-700 hidden md:inline">Document Name</span>
+            <span className="text-[12px] -mb-1 text-gray-700 hidden md:inline">Document Name</span>
             <span onClick={toggleEditing} className="max-md:ml-2 text-sm md:text-base cursor-pointer font-medium md:font-bold">
               {isEditing ? (
                 <input
