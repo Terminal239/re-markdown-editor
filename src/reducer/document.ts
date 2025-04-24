@@ -1,3 +1,5 @@
+import { saveToLocalStorage } from "../utils/localStorage";
+
 export interface Document {
   id: number;
   name: string;
@@ -16,6 +18,8 @@ export interface StateAction {
   document: Document;
 }
 
+export type Action = StateAction | { type: "delete" };
+
 export const createDocument = (): Document => ({
   id: +(Math.random() * 10000000).toFixed(0),
   name: "Untitled",
@@ -31,7 +35,7 @@ export const state: State = {
   documents: initialDocuments,
 };
 
-export const documentReducer = (state: State, action: StateAction): State => {
+export const documentReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "create":
       return {
@@ -45,25 +49,35 @@ export const documentReducer = (state: State, action: StateAction): State => {
         documents: state.documents.map((document) => (document.id === state.editing.id ? state.editing : document)),
         editing: action.document,
       };
-    case "save":
-      return {
+    case "save": {
+      const newState: State = {
         ...state,
         editing: action.document,
         documents: state.documents.map((document) => (document.id === action.document.id ? action.document : document)),
       };
-    case "delete":
-      if (state.documents.length === 1)
-        return {
+      saveToLocalStorage<State>("appState", newState);
+      return newState;
+    }
+    case "delete": {
+      let newState: State;
+      if (state.documents.length === 1) {
+        const newDocument: Document = createDocument();
+        newState = {
           ...state,
-          editing: action.document,
-          documents: [action.document],
+          editing: newDocument,
+          documents: [newDocument],
         };
-      else
-        return {
+      } else {
+        const filtered: Document[] = state.documents.filter((document) => document.id !== state.editing.id);
+        newState = {
           ...state,
-          editing: action.document,
-          documents: state.documents.filter((document) => document.id !== state.editing.id),
+          editing: filtered[0],
+          documents: filtered,
         };
+      }
+      saveToLocalStorage<State>("appState", newState);
+      return newState;
+    }
     case "edit":
       return {
         ...state,

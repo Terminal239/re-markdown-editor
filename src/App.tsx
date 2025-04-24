@@ -8,12 +8,13 @@ import { DispatchContext, StateContext } from "./context/AppContext";
 import { UIContext, UIDispatchContext } from "./context/UIContext";
 import { documentReducer, state } from "./reducer/document";
 import { initialUIState, uiReducer } from "./reducer/ui";
+import { loadFromLocalStorage } from "./utils/localStorage";
 
 type Props = {};
 
 const App = (props: Props) => {
-  const [documents, appDispatch] = useReducer(documentReducer, state);
-  const [ui, uiDispatch] = useReducer(uiReducer, initialUIState);
+  const [documents, appDispatch] = useReducer(documentReducer, loadFromLocalStorage("appState") ?? state);
+  const [ui, uiDispatch] = useReducer(uiReducer, loadFromLocalStorage("uiState") ?? initialUIState);
 
   return (
     <UIContext value={ui}>
@@ -25,7 +26,7 @@ const App = (props: Props) => {
               <div className="flex-1 flex flex-col">
                 <Header />
                 <Main>
-                  {ui.isEditorExpanded && <Editor />}
+                  <Editor />
                   <Preview />
                 </Main>
               </div>
