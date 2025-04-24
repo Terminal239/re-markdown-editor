@@ -76,7 +76,7 @@ const Header = (props: Props) => {
   return (
     <>
       <header className="md:pr-4 flex items-center md:gap-4">
-        <button className="size-[40px] md:size-[60px] text-white font-bold flex items-center justify-center bg-blue-700 hover:bg-blue-500" onClick={handleToggleSidebar}>
+        <button className="size-[40px] md:size-[60px] text-white font-bold flex items-center justify-center bg-gray-700 hover:bg-gray-500" onClick={handleToggleSidebar}>
           {isSidebarOpen ? <IconXMark /> : <IconMenu />}
         </button>
         <span className="hidden md:inline uppercase tracking-[8px] font-bold">Markdown</span>
@@ -102,10 +102,10 @@ const Header = (props: Props) => {
             </span>
           </div>
         </div>
-        <button onClick={toggleDeleting} className="ml-auto text-white hover:bg-red-200 hover:text-red-500 md:rounded bg-red-400 size-[40px] flex items-center justify-center">
+        <button onClick={toggleDeleting} className="ml-auto text-white hover:bg-gray-200 hover:text-gray-500 md:rounded bg-gray-400 size-[40px] flex items-center justify-center">
           <IconTrash />
         </button>
-        <button onClick={handleSaveDocument} className=" bg-teal-700 md:min-w-[180px] px-2 md:pr-3 md:pl-2 text-center hover:bg-teal-500 justify-center size-[40px] font-bold text-white md:rounded flex items-center gap-1">
+        <button onClick={handleSaveDocument} className=" bg-gray-700 md:min-w-[180px] px-2 md:pr-3 md:pl-2 text-center hover:bg-gray-500 justify-center size-[40px] font-bold text-white md:rounded flex items-center gap-1">
           {isSaving ? (
             <>
               <IconRotate className="animate-spin" />

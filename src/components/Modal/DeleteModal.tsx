@@ -23,7 +23,7 @@ const DeleteModal = ({ toggleModal }: Props) => {
         <p className="mb-4 text-sm md:text-base text-gray-600">
           Are you sure you want to delete the document named <span className="font-bold text-black">{editing.name}</span> and its contents? This action cannot be reversed.
         </p>
-        <button onClick={handleDocumentDelete} className="h-[36px] text-sm md:text-base text-white font-bold rounded text-center bg-red-400 w-full">
+        <button onClick={handleDocumentDelete} className="h-[36px] text-sm md:text-base text-white font-bold rounded text-center bg-gray-400 w-full">
           Confirm & Delete
         </button>
       </div>

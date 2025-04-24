@@ -27,8 +27,8 @@ const Sidebar = (props: Props) => {
   };
 
   return (
-    <aside className="min-w-[256px] bg-orange-50 md:p-4">
-      <button onClick={handleCreateNewDocument} className="w-full py-2 bg-orange-400 hover:bg-orange-500 cursor-pointer text-white md:rounded mb-2 md:mb-4">
+    <aside className="min-w-[256px] bg-gray-50 md:p-4">
+      <button onClick={handleCreateNewDocument} className="w-full py-2 bg-gray-400 hover:bg-gray-500 cursor-pointer text-white md:rounded mb-2 md:mb-4">
         New Document
       </button>
       {documents
@@ -37,9 +37,9 @@ const Sidebar = (props: Props) => {
           <div key={document.id} className="mb-2 flex items-center text-gray-700 gap-2 last-of-type:mb-0 max-md:pl-2 md:-ml-1">
             <IconDocument />
             <div className="flex flex-col">
-              <div onClick={() => handleItemClick(document)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer -mb-1", editing.id === document.id && "text-orange-400")}>
+              <div onClick={() => handleItemClick(document)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer -mb-1", editing.id === document.id && "text-gray-400")}>
                 <span>{document.name}.md</span>
-                {editing.id === document.id && <div className="size-[8px] rounded-full bg-orange-400"></div>}
+                {editing.id === document.id && <div className="size-[8px] rounded-full bg-gray-400"></div>}
               </div>
               <span className="text-[12px]">{formatDate(document.updatedAt)}</span>
             </div>
