@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
-import { IconDocument, IconFloppyDisk, IconMenu, IconRotate, IconTrash, IconXMark } from "../Icons";
+import { IconDocument, IconFileArrowDown, IconFloppyDisk, IconMenu, IconRotate, IconTrash, IconXMark } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 
 const Header = () => {
@@ -18,7 +18,6 @@ const Header = () => {
   const [documentName, setDocumentName] = useState(editing.name);
   const timeoutRef = useRef<number>(null);
 
-  // Handle document renaming
   const handleRenameDocument = () => {
     dispatch({
       type: "rename",
@@ -36,7 +35,6 @@ const Header = () => {
     });
   };
 
-  // Handle save action with auto-save and toast details
   const handleSaveDocument = () => {
     setIsSaving(true);
     dispatch({ type: "save" });
@@ -47,13 +45,12 @@ const Header = () => {
       toast.success("Document saved.", {
         description: `Saved at ${timestamp}`,
         duration: 4000,
-        icon: <IconFloppyDisk />, // custom icon
+        icon: <IconFloppyDisk />,
         onAutoClose: () => console.log("Save toast closed after timeout"),
         onDismiss: () => console.log("Save toast dismissed by user"),
       });
     }, 1000);
 
-    // Schedule next auto-save in 30 seconds
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = window.setTimeout(() => {
@@ -61,7 +58,16 @@ const Header = () => {
     }, 30000);
   };
 
-  // Keyboard shortcut: Ctrl+S for save
+  const handleDocumentExport = () => {
+    const file = new Blob([editing.content], { type: "text/markdown" });
+    const a = document.createElement("a");
+    const url = URL.createObjectURL(file);
+
+    a.href = url;
+    a.download = `${editing.name}.md`;
+    a.click();
+  };
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === "s") {
@@ -73,15 +79,12 @@ const Header = () => {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // Cleanup timer on unmount
   useEffect(() => () => clearTimeout(timeoutRef.current), []);
 
-  // Sync local name with global editing state
   useEffect(() => {
     setDocumentName(editing.name);
   }, [editing.name]);
 
-  // Toggles
   const toggleEditing = () => {
     if (isEditing) handleRenameDocument();
     setIsEditing((prev) => !prev);
@@ -118,8 +121,13 @@ const Header = () => {
             </span>
           </div>
         </div>
-        <button onClick={toggleDeleting} className="ml-auto text-white hover:bg-gray-200 hover:text-gray-500 md:rounded bg-gray-400 size-[40px] flex items-center justify-center">
+
+        <button onClick={toggleDeleting} className="ml-auto bg-slate-500 px-2 text-center hover:bg-slate-400 justify-center h-[40px] font-bold text-white md:rounded flex items-center gap-1">
           <IconTrash />
+        </button>
+        <button onClick={handleDocumentExport} className="bg-slate-700 px-2 md:pr-3 md:pl-2 text-center hover:bg-slate-500 justify-center h-[40px] font-bold text-white md:rounded flex items-center gap-1">
+          <IconFileArrowDown />
+          <span className="hidden md:block">Export</span>
         </button>
         <button onClick={handleSaveDocument} className="bg-gray-700 md:min-w-[180px] px-2 md:pr-3 md:pl-2 text-center hover:bg-gray-500 justify-center size-[40px] font-bold text-white md:rounded flex items-center gap-1">
           {isSaving ? (
