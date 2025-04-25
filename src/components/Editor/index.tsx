@@ -59,7 +59,7 @@ const Editor = (props: Props) => {
       <PaneHeader title="Markdown" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} toggleButtonClassName="ml-auto md:hidden" />
       <div className="p-1 size-full">
         <ScrollSyncPane>
-          <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={draft} className="text-sm p-3 w-full h-full overflow-y-auto focus:outline-2 resize-none block" onChange={handleEditing} />
+          <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={draft} className="text-sm p-3 size-full overflow-y-auto focus:outline-2 focus:outline-black resize-none block" onChange={handleEditing} />
         </ScrollSyncPane>
       </div>
     </div>

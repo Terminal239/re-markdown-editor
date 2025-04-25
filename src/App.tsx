@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { Toaster } from "sonner";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import Preview from "./components/Preview";
@@ -31,6 +32,7 @@ const App = (props: Props) => {
                 </Main>
               </div>
             </div>
+            <Toaster />
           </DispatchContext>
         </StateContext>
       </UIDispatchContext>
