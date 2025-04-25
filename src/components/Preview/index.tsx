@@ -6,9 +6,7 @@ import { useUIDispatch, useUIState } from "../../context/UIContext";
 import PaneHeader from "../Reusable/PaneHeader";
 import MarkdownWrapper from "./MarkdownWrapper";
 
-type Props = {};
-
-const Preview = (props: Props) => {
+const Preview = () => {
   const { editing } = useAppState();
   const { isEditorExpanded } = useUIState();
   const uiDispatch = useUIDispatch();

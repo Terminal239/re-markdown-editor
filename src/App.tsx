@@ -11,9 +11,7 @@ import { documentReducer, state } from "./reducer/document";
 import { initialUIState, uiReducer } from "./reducer/ui";
 import { loadFromLocalStorage } from "./utils/localStorage";
 
-type Props = {};
-
-const App = (props: Props) => {
+const App = () => {
   const [documents, appDispatch] = useReducer(documentReducer, loadFromLocalStorage("appState") ?? state);
   const [ui, uiDispatch] = useReducer(uiReducer, loadFromLocalStorage("uiState") ?? initialUIState);
 

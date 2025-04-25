@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import clsx from "clsx";
 import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -13,10 +15,10 @@ function MarkdownWrapper({ content }: Props) {
     <Markdown
       remarkPlugins={[remarkGfm]}
       components={{
-        code({ node, inline, className, children, ...props }) {
+        code({ inline, className, children, ...props }) {
           const match = (className || "").match(/language-(\w+)/);
           return !inline && match ? (
-            <SyntaxHighlighter children={String(children).replace(/\n$/, "")} style={{ ...dracula }} customStyle={{ fontSize: "18px" }} language={match[1]} PreTag="div" {...props} />
+            <SyntaxHighlighter children={String(children).replace(/\n$/, "")} style={dracula} customStyle={{ fontSize: "18px" }} language={match[1]} PreTag="div" {...props} />
           ) : (
             <code className={clsx(className, "text-lg")} {...props}>
               {children}

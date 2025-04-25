@@ -5,9 +5,7 @@ import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 import PaneHeader from "../Reusable/PaneHeader";
 
-type Props = {};
-
-const Editor = (props: Props) => {
+const Editor = () => {
   const { editing } = useAppState();
   const dispatch = useAppDispatch();
 

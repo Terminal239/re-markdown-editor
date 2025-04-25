@@ -7,13 +7,11 @@ import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { createDocument, Document } from "../../reducer/document";
-import { IconDocument, IconDownload, IconPlus, IconTrash } from "../Icons";
+import { IconDocument, IconDownload, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";
 
-type Props = {};
-
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
   const { editing, documents } = useAppState();
   const dispatch = useAppDispatch();
 
@@ -43,6 +41,8 @@ const Sidebar = (props: Props) => {
     });
   };
 
+  const handleCreateFolder = () => {};
+
   const handleItemClick = (document: Document) => {
     dispatch({
       type: "select-document",
@@ -69,7 +69,8 @@ const Sidebar = (props: Props) => {
     <>
       <aside className="min-w-[196px] md:min-w-[256px] bg-gray-50 flex flex-col">
         <div className="flex *:flex-1">
-          <Button tooltipMessage="Create Document" onClick={handleCreateNewDocument} icon={IconPlus} className="bg-gray-700 size-[40px]" />
+          <Button tooltipMessage="New Document" onClick={handleCreateNewDocument} icon={IconPlus} className="bg-gray-700 size-[40px]" />
+          <Button tooltipMessage="Create Folder" onClick={handleCreateFolder} icon={IconFolderPlus} className="bg-gray-700 size-[40px]" />
           <Button tooltipMessage="Delete Document" onClick={toggleDeleting} icon={IconTrash} className="bg-slate-500 h-[40px]" />
           <Button tooltipMessage="Export All Documents" onClick={handleExportAllDocuments} icon={IconDownload} className="bg-neutral-500 h-[40px]" />
         </div>

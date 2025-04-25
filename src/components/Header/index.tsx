@@ -14,7 +14,7 @@ const Header = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [documentName, setDocumentName] = useState(editing.name);
-  const timeoutRef = useRef(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const handleRenameDocument = () => {
     if (documentName.length === 0) {
@@ -69,7 +69,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const onKeyDown = (e) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         handleSaveDocument();
@@ -80,7 +80,14 @@ const Header = () => {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  useEffect(() => () => clearTimeout(timeoutRef.current), []);
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     setDocumentName(editing.name);

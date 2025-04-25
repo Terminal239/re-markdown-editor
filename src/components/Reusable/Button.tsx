@@ -28,7 +28,7 @@ const Button = ({ onClick, icon: Icon, label, loading = false, className = "", r
         </TooltipTrigger>
         {tooltipMessage !== "" && (
           <TooltipContent>
-            <p className="text-white text-[12px] md:text-base px-2 rounded shadow h-[24px] bg-black flex items-center">{tooltipMessage}</p>
+            <p className="text-white text-[12px] md:text-[14px] px-2 rounded shadow h-[24px] bg-black flex items-center">{tooltipMessage}</p>
           </TooltipContent>
         )}
       </Tooltip>
