@@ -22,6 +22,41 @@ button {
   @apply cursor-pointer;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a0a0a0 #f1f1f1;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*:hover::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track:hover,
+*::-webkit-scrollbar-thumb:hover,
+*:hover::-webkit-scrollbar-thumb {
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #a0a0a0;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #707070;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
