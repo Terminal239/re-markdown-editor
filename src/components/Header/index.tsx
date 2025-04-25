@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
-import { IconDocument, IconFileArrowDown, IconFloppyDisk, IconMenu, IconRotate, IconTrash, IconXMark } from "../Icons";
-import DeleteModal from "../Modal/DeleteModal";
+import { IconDocument, IconFileArrowDown, IconFloppyDisk, IconMenu, IconRotate, IconXMark } from "../Icons";
+import Button from "../Reusable/Button";
 
 const Header = () => {
   const { editing } = useAppState();
@@ -14,9 +13,8 @@ const Header = () => {
 
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [documentName, setDocumentName] = useState(editing.name);
-  const timeoutRef = useRef<number>(null);
+  const timeoutRef = useRef(null);
 
   const handleRenameDocument = () => {
     dispatch({
@@ -30,8 +28,6 @@ const Header = () => {
         onClick: () => dispatch({ type: "rename", document: { ...editing, name: editing.name, updatedAt: new Date() } }),
       },
       duration: 5000,
-      onAutoClose: () => console.log("Rename toast auto-closed"),
-      onDismiss: () => console.log("Rename toast manually dismissed"),
     });
   };
 
@@ -46,16 +42,11 @@ const Header = () => {
         description: `Saved at ${timestamp}`,
         duration: 4000,
         icon: <IconFloppyDisk />,
-        onAutoClose: () => console.log("Save toast closed after timeout"),
-        onDismiss: () => console.log("Save toast dismissed by user"),
       });
     }, 1000);
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-
-    timeoutRef.current = window.setTimeout(() => {
-      handleSaveDocument();
-    }, 30000);
+    timeoutRef.current = window.setTimeout(handleSaveDocument, 30000);
   };
 
   const handleDocumentExport = () => {
@@ -69,7 +60,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onKeyDown = (e) => {
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         handleSaveDocument();
@@ -89,21 +80,19 @@ const Header = () => {
     if (isEditing) handleRenameDocument();
     setIsEditing((prev) => !prev);
   };
-  const toggleDeleting = () => setIsDeleting((prev) => !prev);
+
   const handleToggleSidebar = () => uiDispatch({ type: "toggle-sidebar" });
 
   return (
     <>
-      <header className="md:pr-4 flex items-center md:gap-4">
-        <button className="size-[40px] md:size-[60px] text-white font-bold flex items-center justify-center bg-gray-700 hover:bg-gray-500" onClick={handleToggleSidebar}>
-          {isSidebarOpen ? <IconXMark /> : <IconMenu />}
-        </button>
-        <span className="hidden md:inline uppercase tracking-[8px] font-bold">Markdown</span>
-        <div className="flex items-center gap-2 md:border-l md:pl-4">
-          <IconDocument className="hidden md:block" />
+      <header className="flex items-center lg:gap-4">
+        <Button tooltipMessage="Toggle Sidebar" onClick={handleToggleSidebar} icon={isSidebarOpen ? IconXMark : IconMenu} className="size-[40px] bg-gray-700" />
+        <span className="hidden lg:inline uppercase tracking-[8px] font-bold">Markdown</span>
+        <div className="flex items-center gap-2 lg:border-l lg:pl-4">
+          <IconDocument className="hidden lg:block" />
           <div className="flex flex-col">
-            <span className="text-[12px] -mb-1 text-gray-700 hidden md:inline">Document Name</span>
-            <span onClick={toggleEditing} className="max-md:ml-2 text-sm md:text-base cursor-pointer font-medium md:font-bold">
+            <span className="text-[12px] -mb-1 text-gray-700 hidden lg:inline">Document Name</span>
+            <span onClick={toggleEditing} className="max-lg:ml-2 text-sm lg:text-base cursor-pointer font-medium lg:font-bold">
               {isEditing ? (
                 <input
                   className="outline-none border-b-1 h-4 rounded-sm bg-gray-100 p-1 w-[120px]"
@@ -121,29 +110,18 @@ const Header = () => {
             </span>
           </div>
         </div>
-
-        <button onClick={toggleDeleting} className="ml-auto bg-slate-500 px-2 text-center hover:bg-slate-400 justify-center h-[40px] font-bold text-white md:rounded flex items-center gap-1">
-          <IconTrash />
-        </button>
-        <button onClick={handleDocumentExport} className="bg-slate-700 px-2 md:pr-3 md:pl-2 text-center hover:bg-slate-500 justify-center h-[40px] font-bold text-white md:rounded flex items-center gap-1">
-          <IconFileArrowDown />
-          <span className="hidden md:block">Export</span>
-        </button>
-        <button onClick={handleSaveDocument} className="bg-gray-700 md:min-w-[180px] px-2 md:pr-3 md:pl-2 text-center hover:bg-gray-500 justify-center size-[40px] font-bold text-white md:rounded flex items-center gap-1">
-          {isSaving ? (
-            <>
-              <IconRotate className="animate-spin" />
-              <span className="hidden md:block">Saving</span>
-            </>
-          ) : (
-            <>
-              <IconFloppyDisk />
-              <span className="hidden md:block">Save Document</span>
-            </>
-          )}
-        </button>
+        <div className="ml-auto flex items-center">
+          <Button tooltipMessage="Export Document" onClick={handleDocumentExport} icon={IconFileArrowDown} label="Export" className="bg-slate-700 px-2 lg:pr-3 lg:pl-2 h-[40px]" />
+          <Button
+            tooltipMessage="Save Document"
+            onClick={handleSaveDocument}
+            icon={isSaving ? IconRotate : IconFloppyDisk}
+            label={isSaving ? "Saving" : "Save Document"}
+            loading={isSaving}
+            className="bg-gray-700 lg:min-w-[180px] px-2 lg:pr-3 lg:pl-2 h-[40px]"
+          />
+        </div>
       </header>
-      {isDeleting && createPortal(<DeleteModal toggleModal={toggleDeleting} />, document.getElementById("portal")!)}
     </>
   );
 };
