@@ -18,8 +18,6 @@ const DeleteModal = ({ toggleModal }: Props) => {
     toast.success("Document deleted.", {
       description: `Removed “${editing.name}”.`,
       duration: 5000,
-      onAutoClose: () => console.log("Delete toast auto‐closed"),
-      onDismiss: () => console.log("Delete toast dismissed"),
       icon: <IconTrash />,
     });
   };

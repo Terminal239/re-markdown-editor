@@ -40,8 +40,6 @@ const Sidebar = (props: Props) => {
           }),
       },
       duration: 5000,
-      onAutoClose: () => console.log("Create toast auto‐closed"),
-      onDismiss: () => console.log("Create toast dismissed"),
     });
   };
 
@@ -69,21 +67,21 @@ const Sidebar = (props: Props) => {
 
   return (
     <>
-      <aside className="min-w-[256px] bg-gray-50 flex flex-col">
+      <aside className="min-w-[196px] md:min-w-[256px] bg-gray-50 flex flex-col">
         <div className="flex *:flex-1">
           <Button tooltipMessage="Create Document" onClick={handleCreateNewDocument} icon={IconPlus} className="bg-gray-700 size-[40px]" />
           <Button tooltipMessage="Delete Document" onClick={toggleDeleting} icon={IconTrash} className="bg-slate-500 h-[40px]" />
           <Button tooltipMessage="Export All Documents" onClick={handleExportAllDocuments} icon={IconDownload} className="bg-neutral-500 h-[40px]" />
         </div>
-        <div className="md:p-4 overflow-y-auto flex-1">
+        <div className="p-2 md:p-4 overflow-y-auto flex-1">
           {documents
-            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+            .sort((a, b) => a.name.localeCompare(b.name))
             .map((document) => (
-              <div key={document.id} className="mb-2 flex items-center text-gray-700 gap-2 last-of-type:mb-0 max-md:pl-2 md:-ml-1">
+              <div key={document.id} className="mb-2 flex items-center text-gray-700 gap-1 md:gap-2 last-of-type:mb-0 md:-ml-1">
                 <IconDocument />
                 <div className="flex flex-col">
                   <div onClick={() => handleItemClick(document)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer -mb-1", editing.id === document.id && "text-gray-400")}>
-                    <span>{document.name}.md</span>
+                    <span className="text-sm md:text-base">{document.name}.md</span>
                     {editing.id === document.id && <div className="size-[8px] rounded-full bg-gray-400"></div>}
                   </div>
                   <span className="text-[12px]">{formatDate(document.updatedAt)}</span>

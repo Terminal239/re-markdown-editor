@@ -17,11 +17,20 @@ const Header = () => {
   const timeoutRef = useRef(null);
 
   const handleRenameDocument = () => {
+    if (documentName.length === 0) {
+      toast.error("Document name cannot be blank", {
+        duration: 5000,
+      });
+      setDocumentName(editing.name);
+      return;
+    }
+
     dispatch({
       type: "rename",
       document: { ...editing, name: documentName, updatedAt: new Date() },
     });
-    toast.success("Document renamed.", {
+
+    toast.success("Document renamed", {
       description: `New name: ${documentName}`,
       action: {
         label: "Undo",
@@ -38,7 +47,7 @@ const Header = () => {
     setTimeout(() => {
       setIsSaving(false);
       const timestamp = new Date().toLocaleTimeString();
-      toast.success("Document saved.", {
+      toast.success("Document saved", {
         description: `Saved at ${timestamp}`,
         duration: 4000,
         icon: <IconFloppyDisk />,
@@ -66,6 +75,7 @@ const Header = () => {
         handleSaveDocument();
       }
     };
+
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);

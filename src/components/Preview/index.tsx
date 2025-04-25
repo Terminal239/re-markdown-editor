@@ -20,7 +20,7 @@ const Preview = (props: Props) => {
     });
   };
 
-  if (isEditorExpanded && width! < 768) {
+  if (isEditorExpanded && width! < 1024) {
     return null;
   }
 

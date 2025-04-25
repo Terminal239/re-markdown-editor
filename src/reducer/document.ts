@@ -99,7 +99,6 @@ export const documentReducer = (state: State, action: Action): State => {
         editing: action.document,
         documents: state.documents.map((document) => (document.id === action.document.id ? action.document : document)),
       };
-      console.log(newState);
       saveToLocalStorage<State>("appState", newState);
       return newState;
     }
