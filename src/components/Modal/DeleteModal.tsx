@@ -1,4 +1,6 @@
+import { toast } from "sonner";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
+import { IconTrash } from "../Icons";
 import ModalWrapper from "../Wrapper/ModalWrapper";
 
 type Props = {
@@ -10,10 +12,16 @@ const DeleteModal = ({ toggleModal }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleDocumentDelete = () => {
-    dispatch({
-      type: "delete",
-    });
+    dispatch({ type: "delete" });
     toggleModal();
+
+    toast.success("Document deleted.", {
+      description: `Removed “${editing.name}”.`,
+      duration: 5000,
+      onAutoClose: () => console.log("Delete toast auto‐closed"),
+      onDismiss: () => console.log("Delete toast dismissed"),
+      icon: <IconTrash />,
+    });
   };
 
   return (

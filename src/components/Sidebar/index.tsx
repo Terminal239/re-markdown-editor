@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { formatDistance } from "date-fns";
+import { toast } from "sonner";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { createDocument, Document } from "../../reducer/document";
 import { IconDocument } from "../Icons";
@@ -13,9 +14,26 @@ const Sidebar = (props: Props) => {
   const formatDate = (date: Date) => formatDistance(date, new Date(), { addSuffix: true });
 
   const handleCreateNewDocument = () => {
+    const newDoc = createDocument();
     dispatch({
       type: "create",
-      document: createDocument(),
+      document: newDoc,
+    });
+
+    toast.success("Document created.", {
+      description: `New doc: ${newDoc.name}`,
+      icon: <IconDocument />, // custom icon
+      action: {
+        label: "Open",
+        onClick: () =>
+          dispatch({
+            type: "select-document",
+            document: newDoc,
+          }),
+      },
+      duration: 5000,
+      onAutoClose: () => console.log("Create toast auto‐closed"),
+      onDismiss: () => console.log("Create toast dismissed"),
     });
   };
 
@@ -25,7 +43,6 @@ const Sidebar = (props: Props) => {
       document,
     });
   };
-
   return (
     <aside className="min-w-[256px] bg-gray-50 md:p-4">
       <button onClick={handleCreateNewDocument} className="w-full py-2 bg-gray-400 hover:bg-gray-500 cursor-pointer text-white md:rounded mb-2 md:mb-4">
