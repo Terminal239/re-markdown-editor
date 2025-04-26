@@ -26,15 +26,15 @@ const Header = () => {
     }
 
     dispatch({
-      type: "rename",
-      document: { ...editing, name: documentName, updatedAt: new Date() },
+      type: "RENAME_DOCUMENT",
+      name: documentName,
     });
 
     toast.success("Document renamed", {
       description: `New name: ${documentName}`,
       action: {
         label: "Undo",
-        onClick: () => dispatch({ type: "rename", document: { ...editing, name: editing.name, updatedAt: new Date() } }),
+        onClick: () => dispatch({ type: "RENAME_DOCUMENT", name: editing.name }),
       },
       duration: 5000,
     });
@@ -42,7 +42,7 @@ const Header = () => {
 
   const handleSaveDocument = () => {
     setIsSaving(true);
-    dispatch({ type: "save" });
+    dispatch({ type: "SAVE_DOCUMENT" });
 
     setTimeout(() => {
       setIsSaving(false);

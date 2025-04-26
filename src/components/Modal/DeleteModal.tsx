@@ -12,7 +12,7 @@ const DeleteModal = ({ toggleModal }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleDocumentDelete = () => {
-    dispatch({ type: "delete" });
+    dispatch({ type: "DELETE_DOCUMENT" });
     toggleModal();
 
     toast.success("Document deleted.", {

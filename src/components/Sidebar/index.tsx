@@ -4,9 +4,8 @@ import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { toast } from "sonner";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
-import { createDocument, Document } from "../../reducer/document";
+import { Document } from "../../reducer/document";
 import { IconDocument, IconDownload, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";
@@ -20,24 +19,8 @@ const Sidebar = () => {
   const formatDate = (date: Date) => formatDistance(date, new Date(), { addSuffix: true });
 
   const handleCreateNewDocument = () => {
-    const newDoc = createDocument();
     dispatch({
-      type: "create",
-      document: newDoc,
-    });
-
-    toast.success("Document created.", {
-      description: `New doc: ${newDoc.name}`,
-      icon: <IconDocument />, // custom icon
-      action: {
-        label: "Open",
-        onClick: () =>
-          dispatch({
-            type: "select-document",
-            document: newDoc,
-          }),
-      },
-      duration: 5000,
+      type: "CREATE_DOCUMENT",
     });
   };
 
@@ -45,7 +28,7 @@ const Sidebar = () => {
 
   const handleItemClick = (document: Document) => {
     dispatch({
-      type: "select-document",
+      type: "SELECT_DOCUMENT",
       document,
     });
   };

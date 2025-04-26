@@ -27,8 +27,8 @@ const Editor = () => {
 
     timerRef.current = setTimeout(() => {
       dispatch({
-        type: "edit",
-        document: { ...editing, content: draft },
+        type: "EDIT_DOCUMENT",
+        content: draft,
       });
     }, 300);
 
