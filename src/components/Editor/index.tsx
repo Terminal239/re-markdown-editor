@@ -53,8 +53,8 @@ const Editor = () => {
   }
 
   return (
-    <div className="flex-1 border-r border-gray-500/40 flex flex-col overflow-hidden min-h-0">
-      <PaneHeader title="Markdown" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} toggleButtonClassName="ml-auto lg:hidden" />
+    <div className="flex-1 lg:border-r border-gray-500/40 flex flex-col overflow-hidden min-h-0">
+      <PaneHeader title="Markdown" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} toggleButtonClassName="lg:hidden" />
       <div className="p-1 size-full">
         <ScrollSyncPane>
           <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={draft} className="text-sm p-3 size-full overflow-y-auto focus:outline-2 focus:outline-black resize-none block" onChange={handleEditing} />

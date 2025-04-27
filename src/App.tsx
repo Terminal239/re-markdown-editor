@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { Toaster } from "sonner";
+import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import Preview from "./components/Preview";
@@ -12,13 +12,13 @@ import { initialUIState, uiReducer } from "./reducer/ui";
 import { loadFromLocalStorage } from "./utils/localStorage";
 
 const App = () => {
-  const [documents, appDispatch] = useReducer(documentReducer, loadFromLocalStorage("appState") ?? state);
+  const [fileStructure, appDispatch] = useReducer(documentReducer, loadFromLocalStorage("appState") ?? state);
   const [ui, uiDispatch] = useReducer(uiReducer, loadFromLocalStorage("uiState") ?? initialUIState);
 
   return (
     <UIContext value={ui}>
       <UIDispatchContext value={uiDispatch}>
-        <StateContext value={documents}>
+        <StateContext value={fileStructure}>
           <DispatchContext value={appDispatch}>
             <div className="flex h-full">
               {ui.isSidebarOpen && <Sidebar />}

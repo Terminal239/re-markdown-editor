@@ -23,7 +23,7 @@ const Preview = () => {
   }
 
   return (
-    <div className="flex flex-col flex-1 border-l border-gray-500/40 overflow-hidden min-h-0">
+    <div className="flex flex-col flex-1 lg:border-l border-gray-500/40 overflow-hidden min-h-0">
       <PaneHeader title="Preview" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} />
       <ScrollSyncPane>
         <div className="flex-1 overflow-y-auto">

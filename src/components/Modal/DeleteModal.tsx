@@ -1,6 +1,5 @@
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
-import { IconTrash } from "../Icons";
 import ModalWrapper from "../Wrapper/ModalWrapper";
 
 type Props = {
@@ -15,10 +14,8 @@ const DeleteModal = ({ toggleModal }: Props) => {
     dispatch({ type: "DELETE_DOCUMENT" });
     toggleModal();
 
-    toast.success("Document deleted.", {
-      description: `Removed “${editing.name}”.`,
+    toast.success("Document deleted successfully!", {
       duration: 5000,
-      icon: <IconTrash />,
     });
   };
 

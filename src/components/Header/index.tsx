@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { useAppDispatch, useAppState } from "../../context/AppContext";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 import { IconDocument, IconFileArrowDown, IconFloppyDisk, IconMenu, IconRotate, IconXMark } from "../Icons";
@@ -30,32 +30,29 @@ const Header = () => {
       name: documentName,
     });
 
-    toast.success("Document renamed", {
-      description: `New name: ${documentName}`,
-      action: {
-        label: "Undo",
-        onClick: () => dispatch({ type: "RENAME_DOCUMENT", name: editing.name }),
-      },
-      duration: 5000,
-    });
+    toast.success(
+      <p>
+        Document renamed to <span className="font-bold">{documentName}</span>
+      </p>,
+      {
+        duration: 5000,
+      }
+    );
   };
 
   const handleSaveDocument = () => {
     setIsSaving(true);
     dispatch({ type: "SAVE_DOCUMENT" });
 
-    setTimeout(() => {
-      setIsSaving(false);
-      const timestamp = new Date().toLocaleTimeString();
-      toast.success("Document saved", {
-        description: `Saved at ${timestamp}`,
-        duration: 4000,
-        icon: <IconFloppyDisk />,
-      });
-    }, 1000);
+    toast.success("Document saved!", {
+      duration: 4000,
+      icon: <IconFloppyDisk />,
+    });
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = window.setTimeout(handleSaveDocument, 30000);
+
+    setIsSaving(false);
   };
 
   const handleDocumentExport = () => {
@@ -107,9 +104,9 @@ const Header = () => {
         <span className="hidden lg:inline uppercase tracking-[8px] font-bold">Markdown</span>
         <div className="flex items-center gap-2 lg:border-l lg:pl-4">
           <IconDocument className="hidden lg:block" />
-          <div className="flex flex-col">
+          <div className="flex flex-col ml-4 lg:ml-0">
             <span className="text-[12px] -mb-1 text-gray-700 hidden lg:inline">Document Name</span>
-            <span onClick={toggleEditing} className="max-lg:ml-2 text-sm lg:text-base cursor-pointer font-medium lg:font-bold">
+            <span onClick={toggleEditing} className="max-lg:ml-2 text-base cursor-pointer font-bold">
               {isEditing ? (
                 <input
                   className="outline-none border-b-1 h-4 rounded-sm bg-gray-100 p-1 w-[120px]"

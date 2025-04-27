@@ -102,4 +102,28 @@ const IconFolderPlus = ({ height = 24, width = 24, className = "" }: Props) => {
   );
 };
 
-export { IconDocument, IconDownload, IconEyeOpen, IconEyeSlash, IconFileArrowDown, IconFloppyDisk, IconFolderPlus, IconMenu, IconPlus, IconRotate, IconTrash, IconXMark };
+const IconFolder = ({ height = 24, width = 24, className = "" }: Props) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height={height} width={width} className={clsx("h-4 md:h-4.5 fill-current", className)}>
+      <path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z" />
+    </svg>
+  );
+};
+
+const IconFolderOpen = ({ height = 24, width = 24, className = "" }: Props) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height={height} width={width} className={clsx("h-4 md:h-4.5 fill-current", className)}>
+      <path d="M88.7 223.8L0 375.8 0 96C0 60.7 28.7 32 64 32l117.5 0c17 0 33.3 6.7 45.3 18.7l26.5 26.5c12 12 28.3 18.7 45.3 18.7L416 96c35.3 0 64 28.7 64 64l0 32-336 0c-22.8 0-43.8 12.1-55.3 31.8zm27.6 16.1C122.1 230 132.6 224 144 224l400 0c11.5 0 22 6.1 27.7 16.1s5.7 22.2-.1 32.1l-112 192C453.9 474 443.4 480 432 480L32 480c-11.5 0-22-6.1-27.7-16.1s-5.7-22.2 .1-32.1l112-192z" />
+    </svg>
+  );
+};
+
+const IconFilePen = ({ height = 24, width = 24, className = "" }: Props) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height={height} width={width} className={clsx("h-4 md:h-4.5 fill-current", className)}>
+      <path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 125.7-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z" />
+    </svg>
+  );
+};
+
+export { IconDocument, IconDownload, IconEyeOpen, IconEyeSlash, IconFileArrowDown, IconFilePen, IconFloppyDisk, IconFolder, IconFolderOpen, IconFolderPlus, IconMenu, IconPlus, IconRotate, IconTrash, IconXMark };
