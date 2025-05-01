@@ -4,11 +4,12 @@ import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { useAppDispatch, useAppState } from "../../context/AppContext";
-import { Document, FileTree, Folder } from "../../reducer/document";
+import { createDocument, Document, selectDocument } from "../../config/dexie";
 import { IconDocument, IconDownload, IconFilePen, IconFolder, IconFolderOpen, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";
+import useActiveFile from "../hooks/use-active-file";
+import useFiles from "../hooks/use-files";
 
 type RenderDocumentProps = {
   document: Document;
@@ -48,23 +49,19 @@ const RenderFolder = ({ folder, setSelectedFolder }: RenderFolderProps) => {
 };
 
 const RenderDocument = ({ document }: RenderDocumentProps) => {
-  const { editing } = useAppState();
-  const dispatch = useAppDispatch();
+  const editing = useActiveFile();
 
-  const handleItemClick = (document: Document) => {
-    dispatch({
-      type: "SELECT_DOCUMENT",
-      document,
-    });
+  const handleItemClick = async (documentId: number) => {
+    await selectDocument(documentId);
   };
 
   return (
     <div key={document.id} className="h-[42px] pl-4 py-2 flex items-center text-gray-700 gap-1 md:gap-2 md:-ml-1">
-      {editing.id === document.id ? <IconFilePen /> : <IconDocument />}
+      {editing?.id === document.id ? <IconFilePen /> : <IconDocument />}
       <div className="flex flex-col">
-        <div onClick={() => handleItemClick(document)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer -mb-1", editing.id === document.id && "text-gray-400")}>
-          <span className="text-sm md:text-base">{document.name}.md</span>
-          {editing.id === document.id && <div className="size-[8px] rounded-full bg-gray-400"></div>}
+        <div onClick={() => handleItemClick(document.id)} className={clsx("flex items-center gap-2 font-medium hover:underline w-fit cursor-pointer -mb-1", editing?.id === document.id && "text-gray-400")}>
+          <span className="text-sm md:text-base max-w-[16ch] overflow-hidden text-ellipsis">{document.name}.md</span>
+          {editing?.id === document.id && <div className="size-[8px] rounded-full bg-gray-400"></div>}
         </div>
         <span className="text-[12px] text-gray-500">{formatDate(document.updatedAt)}</span>
       </div>
@@ -73,32 +70,27 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
 };
 
 const Sidebar = () => {
-  const { fileStructure } = useAppState();
-  const dispatch = useAppDispatch();
-
-  const [selectedFolder, setSelectedFolder] = useState<number>(-1);
+  const documents = useFiles();
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleCreateNewDocument = () => {
-    console.log(selectedFolder);
-    dispatch({
-      type: "CREATE_DOCUMENT",
-    });
+  const handleCreateNewDocument = async () => {
+    await createDocument();
   };
 
   const handleCreateFolder = () => {
-    dispatch({
-      type: "CREATE_FOLDER",
-    });
+    // dispatch({
+    //   type: "CREATE_FOLDER",
+    // });
   };
 
   const handleExportAllDocuments = async () => {
     const zip = new JSZip();
-    for (const document of fileStructure) {
-      zip.file(`${document.name}.md`, (document as Document).content, {
+    for (const document of documents) {
+      zip.file(`${document.name}-${document.id}.md`, (document as Document).content, {
         date: new Date(document.updatedAt),
       });
     }
+
     const file = await zip.generateAsync({ type: "blob" });
     saveAs(file, "exported-fileStructure.zip");
   };
@@ -115,9 +107,9 @@ const Sidebar = () => {
           <Button tooltipMessage="Export All Documents" onClick={handleExportAllDocuments} icon={IconDownload} className="bg-neutral-500 h-[40px]" />
         </div>
         <div className="overflow-y-auto flex-1 flex flex-col">
-          {fileStructure.sort(arrangeFileTree).map((file) => {
-            if (file.type === "DOCUMENT") return <RenderDocument document={file} />;
-            if (file.type === "FOLDER") return <RenderFolder setSelectedFolder={setSelectedFolder} folder={file} />;
+          {documents.map((file) => {
+            if (file.type === "DOCUMENT") return <RenderDocument key={file.id} document={file} />;
+            // if (file.type === "FOLDER") return <RenderFolder setSelectedFolder={setSelectedFolder} folder={file} />;
             else return <></>;
           })}
         </div>

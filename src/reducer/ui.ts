@@ -1,6 +1,6 @@
 // ui-context.tsx
 
-import { saveToLocalStorage } from "../utils/localStorage";
+import { saveToLocalStorage } from "../lib/localStorage";
 
 export interface UIState {
   isSidebarOpen: boolean;

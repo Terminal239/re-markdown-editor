@@ -1,47 +1,19 @@
 import "@fontsource-variable/source-code-pro";
-import { useEffect, useRef, useState } from "react";
 import { ScrollSyncPane } from "react-scroll-sync";
-import { useAppDispatch, useAppState } from "../../context/AppContext";
+import { saveDocument } from "../../config/dexie";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 import PaneHeader from "../Reusable/PaneHeader";
+import useActiveFile from "../hooks/use-active-file";
 
 const Editor = () => {
-  const { editing } = useAppState();
-  const dispatch = useAppDispatch();
+  const editing = useActiveFile();
 
   const { isEditorExpanded } = useUIState();
   const uiDispatch = useUIDispatch();
 
-  const [draft, setDraft] = useState(editing.content);
-
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    setDraft(editing.content);
-  }, [editing.content]);
-
-  useEffect(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-
-    timerRef.current = setTimeout(() => {
-      dispatch({
-        type: "EDIT_DOCUMENT",
-        content: draft,
-      });
-    }, 300);
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [draft, dispatch]);
-
-  const handleEditing = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleEditing = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
-    setDraft(event.target.value);
+    await saveDocument({ ...editing, content: event.target.value });
   };
 
   const toggleEditor = () => {
@@ -57,7 +29,7 @@ const Editor = () => {
       <PaneHeader title="Markdown" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} toggleButtonClassName="lg:hidden" />
       <div className="p-1 size-full">
         <ScrollSyncPane>
-          <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={draft} className="text-sm p-3 size-full overflow-y-auto focus:outline-2 focus:outline-black resize-none block" onChange={handleEditing} />
+          <textarea style={{ fontFamily: "Source Code Pro Variable, monospace" }} value={editing?.content} className="text-sm p-3 size-full overflow-y-auto focus:outline-2 focus:outline-black resize-none block" onChange={handleEditing} />
         </ScrollSyncPane>
       </div>
     </div>

@@ -1,34 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useAppDispatch, useAppState } from "../../context/AppContext";
+import { saveDocument } from "../../config/dexie";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 import { IconDocument, IconFileArrowDown, IconFloppyDisk, IconMenu, IconRotate, IconXMark } from "../Icons";
 import Button from "../Reusable/Button";
+import useActiveFile from "../hooks/use-active-file";
 
 const Header = () => {
-  const { editing } = useAppState();
+  const editing = useActiveFile();
+
   const { isSidebarOpen } = useUIState();
   const uiDispatch = useUIDispatch();
-  const dispatch = useAppDispatch();
 
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [documentName, setDocumentName] = useState(editing.name);
+  const [documentName, setDocumentName] = useState(editing?.name ?? "");
   const timeoutRef = useRef<number | null>(null);
 
-  const handleRenameDocument = () => {
+  const handleRenameDocument = async () => {
     if (documentName.length === 0) {
       toast.error("Document name cannot be blank", {
         duration: 5000,
       });
-      setDocumentName(editing.name);
+      setDocumentName(editing?.name ?? "");
       return;
     }
 
-    dispatch({
-      type: "RENAME_DOCUMENT",
-      name: documentName,
-    });
+    await saveDocument({ ...editing, name: documentName });
 
     toast.success(
       <p>
@@ -40,9 +38,9 @@ const Header = () => {
     );
   };
 
-  const handleSaveDocument = () => {
+  const handleSaveDocument = async () => {
     setIsSaving(true);
-    dispatch({ type: "SAVE_DOCUMENT" });
+    await saveDocument(editing);
 
     toast.success("Document saved!", {
       duration: 4000,
@@ -56,12 +54,12 @@ const Header = () => {
   };
 
   const handleDocumentExport = () => {
-    const file = new Blob([editing.content], { type: "text/markdown" });
+    const file = new Blob([editing?.content ?? ""], { type: "text/markdown" });
     const a = document.createElement("a");
     const url = URL.createObjectURL(file);
 
     a.href = url;
-    a.download = `${editing.name}.md`;
+    a.download = `${editing?.name ?? ""}.md`;
     a.click();
   };
 
@@ -87,8 +85,8 @@ const Header = () => {
   );
 
   useEffect(() => {
-    setDocumentName(editing.name);
-  }, [editing.name]);
+    setDocumentName(editing?.name ?? "");
+  }, [editing?.name]);
 
   const toggleEditing = () => {
     if (isEditing) handleRenameDocument();
@@ -96,6 +94,8 @@ const Header = () => {
   };
 
   const handleToggleSidebar = () => uiDispatch({ type: "toggle-sidebar" });
+
+  if (editing === null) return null;
 
   return (
     <>
