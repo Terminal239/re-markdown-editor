@@ -2,7 +2,9 @@ import { useReducer } from "react";
 import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
+import useActiveFile from "./components/hooks/use-active-file";
 import Preview from "./components/Preview";
+import EmptyState from "./components/Reusable/EmptyState";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Wrapper/Main";
 import { UIContext, UIDispatchContext } from "./context/UIContext";
@@ -11,6 +13,7 @@ import { initialUIState, uiReducer } from "./reducer/ui";
 
 const App = () => {
   const [ui, uiDispatch] = useReducer(uiReducer, loadFromLocalStorage("uiState") ?? initialUIState);
+  const editing = useActiveFile();
 
   return (
     <UIContext value={ui}>
@@ -20,8 +23,14 @@ const App = () => {
           <div className="flex-1 flex flex-col">
             <Header />
             <Main>
-              <Editor />
-              <Preview />
+              {editing !== null ? (
+                <>
+                  <Editor />
+                  <Preview />
+                </>
+              ) : (
+                <EmptyState />
+              )}
             </Main>
           </div>
         </div>

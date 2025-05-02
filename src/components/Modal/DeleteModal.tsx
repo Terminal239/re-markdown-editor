@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
-import { deleteDocument } from "../../config/dexie";
 import ModalWrapper from "../Wrapper/ModalWrapper";
+import { deleteDocument } from "../actions/files";
 import useActiveFile from "../hooks/use-active-file";
 
 type Props = {
@@ -11,7 +11,9 @@ const DeleteModal = ({ toggleModal }: Props) => {
   const editing = useActiveFile();
 
   const handleDocumentDelete = async () => {
-    await deleteDocument(editing?.id);
+    if (editing === null) return;
+
+    await deleteDocument(editing.id);
     toggleModal();
 
     toast.success("Document deleted successfully!", {

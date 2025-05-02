@@ -172,3 +172,21 @@ button {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .file-tree-entry-outer-container {
+    @apply h-[32px] pl-4 pr-2 flex items-center gap-1 text-gray-700 md:-ml-1 hover:bg-gray-200 cursor-pointer;
+  }
+
+  .file-tree-entry-inner-container {
+    @apply flex items-center gap-2 font-medium w-full;
+  }
+
+  .file-tree-entry--selected {
+    @apply !bg-blue-300;
+  }
+
+  .file-tree-entry-text {
+    @apply text-sm md:text-base max-w-[16ch] overflow-hidden text-ellipsis mt-0.5;
+  }
+}

@@ -1,8 +1,8 @@
 import "@fontsource-variable/source-code-pro";
 import { ScrollSyncPane } from "react-scroll-sync";
-import { saveDocument } from "../../config/dexie";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 import PaneHeader from "../Reusable/PaneHeader";
+import { saveDocument } from "../actions/files";
 import useActiveFile from "../hooks/use-active-file";
 
 const Editor = () => {
@@ -12,13 +12,13 @@ const Editor = () => {
   const uiDispatch = useUIDispatch();
 
   const handleEditing = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (editing === null) return;
+
     event.preventDefault();
     await saveDocument({ ...editing, content: event.target.value });
   };
 
-  const toggleEditor = () => {
-    uiDispatch({ type: "toggle-editor" });
-  };
+  const toggleEditor = () => uiDispatch({ type: "toggle-editor" });
 
   if (!isEditorExpanded) {
     return null;

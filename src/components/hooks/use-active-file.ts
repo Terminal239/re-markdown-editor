@@ -1,13 +1,13 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "../../config/dexie";
+import { db, Document } from "../../config/dexie";
 
-const useActiveFile = () => {
+const useActiveFile = (): Document | null => {
   const editing = useLiveQuery(async () => {
     const state = await db.appState.get("activeFileId");
     return db.files.get(state?.value);
   })!;
 
-  return editing;
+  return editing === undefined ? null : editing;
 };
 
 export default useActiveFile;
