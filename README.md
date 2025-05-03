@@ -97,5 +97,5 @@ tests where appropriate.
 
 ## License
 
-This project is licensed under the [Your License Name - e.g., MIT] License. See
+This project is licensed under the MIT License. See
 the `LICENSE` file for details.
