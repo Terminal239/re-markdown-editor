@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { saveDocument } from "../../actions/files";
-import { Document } from "../../config/dexie";
+import { Document } from "../../types/types";
 import { IconDocument } from "../Icons";
 
 type Props = {
@@ -43,14 +43,14 @@ const DocumentInfo = ({ activeFile }: Props) => {
   }, [activeFile?.name]);
 
   return (
-    <div className="flex items-center gap-2 lg:border-l lg:pl-4">
+    <div className="ml-8 flex items-center gap-2 md:ml-0 lg:border-l lg:pl-4">
       <IconDocument className="hidden lg:block" />
       <div className="ml-4 flex flex-col lg:ml-0">
         <span className="-mb-1 hidden text-[12px] text-gray-700 lg:inline">Document Name</span>
         <span onClick={toggleEditing} className="cursor-pointer text-base font-bold max-lg:ml-2">
           {isEditing ? (
             <input
-              className="h-4 w-[120px] rounded-sm border-b-1 bg-gray-100 p-1 outline-none"
+              className="h-4 w-[120px] border-b border-b-black bg-white p-1 outline-none"
               type="text"
               onKeyDown={(e) => e.key === "Enter" && toggleEditing()}
               onChange={(e) => setDocumentName(e.target.value)}

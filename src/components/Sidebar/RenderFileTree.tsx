@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { memo } from "react";
-import { FileTree } from "../../config/dexie";
 import useFiles from "../../hooks/use-files";
 import { isDocument, isFolder } from "../../lib/guard";
+import { FileTree } from "../../types/types";
 import Menu from "../Reusable/Menu";
 import RenderDocument from "./RenderDocument";
 import RenderFolder from "./RenderFolder";
@@ -23,7 +23,7 @@ const RenderFileTree = ({ parentId }: RenderFileTreeProps) => {
     <div
       className={clsx(
         "flex flex-col overflow-y-auto",
-        fileTree.length !== 0 && parentId !== -1 && "ml-3 border-l border-gray-500/50",
+        fileTree.length !== 0 && parentId !== -1 && "border-l border-gray-500/50 md:ml-3",
       )}
     >
       {fileTree.sort(arrangeFileTree).map((treeNode) => {

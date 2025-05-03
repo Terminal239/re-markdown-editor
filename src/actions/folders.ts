@@ -1,13 +1,12 @@
-import { Folder, db } from "../config/dexie";
-
-const getFolderInstance = (parentId?: number): Folder => ({
-  id: +(Math.random() * 10000000).toFixed(0),
-  name: "untitled",
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  parentId: parentId ? parentId : -1,
-  type: "FOLDER",
-});
+import { db } from "../config/dexie";
+import { Folder } from "../types/types";
+import { getFolderInstance } from "./helper";
+import {
+  resetActiveFolderId,
+  setActiveFolderId,
+  setSidebarDeleteId,
+  setSidebarRenameId,
+} from "./state";
 
 const getFolderTree = async (parentId?: number) => {
   const files = await db.files.filter((file) => file.parentId === parentId).toArray();
@@ -21,21 +20,15 @@ const createFolder = async (id?: number) => {
     const activeFolderId = id ? id : (await db.appState.get("activeFolderId"))?.value;
 
     const folderId = await db.folders.add(getFolderInstance(activeFolderId));
-    await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: folderId });
-    await db.appState.update("activeFolderId", { key: "activeFolderId", value: folderId });
+    await setSidebarRenameId(folderId);
+    await setActiveFolderId(folderId);
   });
 };
 
 const selectFolder = async (id: number) => {
   await db.transaction("rw", db.appState, async () => {
-    db.appState.update("activeFolderId", { key: "activeFolderId", value: id });
-    db.appState.update("sidebarDeleteId", {
-      key: "sidebarDeleteId",
-      value: {
-        type: "FOLDER",
-        id,
-      },
-    });
+    await setActiveFolderId(id);
+    await setSidebarDeleteId("FOLDER", id);
   });
 };
 
@@ -56,7 +49,7 @@ const deleteHelper = async (id: number) => {
 const deleteFolder = async (id: number) => {
   await db.transaction("rw", db.folders, db.files, db.appState, async () => {
     await deleteHelper(id);
-    await db.appState.update("activeFolderId", { key: "activeFolderId", value: -1 });
+    await resetActiveFolderId();
   });
 };
 

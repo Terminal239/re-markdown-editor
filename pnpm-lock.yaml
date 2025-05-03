@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      '@fontsource-variable/dm-sans':
+      '@fontsource-variable/inter':
         specifier: ^5.2.5
         version: 5.2.5
       '@fontsource-variable/source-code-pro':
@@ -440,8 +440,8 @@ packages:
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
 
-  '@fontsource-variable/dm-sans@5.2.5':
-    resolution: {integrity: sha512-ynWdb1Ncn5ywUOE6OkTsvgjkiZKj+xM/GS2iVE47MBvS3AlfOSyOy3xynfkQsM3ngaxdCamT/06hZGAgPmao0A==}
+  '@fontsource-variable/inter@5.2.5':
+    resolution: {integrity: sha512-TrWffUAFOnT8zroE9YmGybagoOgM/HjRqMQ8k9R0vVgXlnUh/vnpbGPAS/Caz1KIlOPnPGh6fvJbb7DHbFCncA==}
 
   '@fontsource-variable/source-code-pro@5.2.5':
     resolution: {integrity: sha512-Mi0+uddn7+wE2hytXVG4RN7TJ8aLU6SU/4GVxBRgkaGsI/WQ3ir3uSzbUGBmG7EnEGQkenr21eVmDHdba2RBKA==}
@@ -2678,7 +2678,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.9': {}
 
-  '@fontsource-variable/dm-sans@5.2.5': {}
+  '@fontsource-variable/inter@5.2.5': {}
 
   '@fontsource-variable/source-code-pro@5.2.5': {}
 

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { createDocument, deleteDocument } from "../../actions/files";
 import { createFolder, deleteFolder } from "../../actions/folders";
-import { resetSidebarRenameItem, setSidebarRenameItem } from "../../actions/state";
+import { setSidebarRenameId } from "../../actions/state";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -22,8 +22,7 @@ type ContextProps = {
 };
 
 const handleRename = async (id: number) => {
-  await resetSidebarRenameItem();
-  await setSidebarRenameItem(id);
+  await setSidebarRenameId(id);
 };
 
 const handleDelete = async (id: number, type: Props["type"]) => {

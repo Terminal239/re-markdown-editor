@@ -2,12 +2,22 @@ import { db } from "../config/dexie";
 import { deleteDocument } from "./files";
 import { deleteFolder } from "./folders";
 
-const setSidebarRenameItem = async (id: number) => {
+const setSidebarRenameId = async (id: number) => {
   await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: id });
 };
 
-const resetSidebarRenameItem = async () => {
+const resetSidebarRenameId = async () => {
   await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: -1 });
+};
+
+const setSidebarDeleteId = async (type: "DOCUMENT" | "FOLDER" | "NULL", id: number) => {
+  await db.appState.update("sidebarDeleteId", {
+    key: "sidebarDeleteId",
+    value: {
+      type,
+      id,
+    },
+  });
 };
 
 const resetSidebarDeleteId = async () => {
@@ -18,6 +28,18 @@ const resetSidebarDeleteId = async () => {
       id: -1,
     },
   });
+};
+
+const setActiveFolderId = async (id: number) => {
+  await db.appState.update("activeFolderId", { key: "activeFolderId", value: id });
+};
+
+const resetActiveFolderId = async () => {
+  await db.appState.update("activeFolderId", { key: "activeFolderId", value: -1 });
+};
+
+const setActiveFileId = async (id: number) => {
+  await db.appState.update("activeFileId", { key: "activeFileId", value: id });
 };
 
 const deleteSidebarItem = async (itemToDelete: {
@@ -38,4 +60,13 @@ const deleteSidebarItem = async (itemToDelete: {
   }
 };
 
-export { deleteSidebarItem, resetSidebarDeleteId, resetSidebarRenameItem, setSidebarRenameItem };
+export {
+  deleteSidebarItem,
+  resetActiveFolderId,
+  resetSidebarDeleteId,
+  resetSidebarRenameId,
+  setActiveFileId,
+  setActiveFolderId,
+  setSidebarDeleteId,
+  setSidebarRenameId,
+};

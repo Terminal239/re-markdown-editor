@@ -1,26 +1,6 @@
 import Dexie, { EntityTable, Table } from "dexie";
 import { getDocumentInstance } from "../actions/files";
-
-interface Document {
-  id: number;
-  name: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  type: "DOCUMENT";
-  parentId?: number;
-}
-
-interface Folder {
-  id: number;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-  type: "FOLDER";
-  parentId?: number;
-}
-
-type FileTree = Document | Folder;
+import { Document, Folder } from "../types/types";
 
 interface AppStateEntry {
   key: string; // Primary key
@@ -59,4 +39,4 @@ db.on("populate", async () => {
 });
 
 export { db };
-export type { AppStateEntry, Document, FileTree, Folder };
+export type { AppStateEntry };

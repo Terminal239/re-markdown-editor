@@ -1,13 +1,15 @@
 import clsx from "clsx";
 import { memo, useEffect, useState } from "react";
 import { saveFolder, selectFolder } from "../../actions/folders";
-import { resetSidebarRenameItem } from "../../actions/state";
-import { Folder } from "../../config/dexie";
+import { resetSidebarRenameId } from "../../actions/state";
 import useActiveFile from "../../hooks/use-active-file";
 import useActiveFolder from "../../hooks/use-active-folder";
 import useSidebarEditing from "../../hooks/use-sidebar-editing";
 import { validateName } from "../../lib/utils";
+import { Folder } from "../../types/types";
 import { IconChevronRight, IconFolder, IconFolderOpen } from "../Icons";
+import EditableNameInput from "../Reusable/EditableNameInput";
+import FileTreeEntryLayout from "../Reusable/FileTreeEntryLayout";
 import RenderFileTree from "./RenderFileTree";
 
 type RenderFolderProps = {
@@ -15,64 +17,51 @@ type RenderFolderProps = {
 };
 
 const RenderFolder = ({ folder }: RenderFolderProps) => {
-  const [folderName, setFolderName] = useState(folder.name);
   const [isExpanded, setIsExpanded] = useState(false);
-
   const activeFile = useActiveFile();
   const activeFolder = useActiveFolder();
-  const sidebarEditing = useSidebarEditing();
+  const sidebarEditingId = useSidebarEditing();
+  const isEditing = folder.id === sidebarEditingId;
+  const isActive = activeFolder?.id === folder.id;
 
   const toggleExpansion = async () => {
-    await selectFolder(folder.id);
-    setIsExpanded((prev) => !prev);
+    if (!isEditing) {
+      await selectFolder(folder.id);
+      setIsExpanded((prev) => !prev);
+    }
   };
 
-  const handleFolderRename = async () => {
-    if (folderName !== undefined && validateName(folderName))
-      await saveFolder({ ...folder, name: folderName });
-    else return;
-
-    await resetSidebarRenameItem();
+  const handleFolderSave = async (newName: string) => {
+    await saveFolder({ ...folder, name: newName });
   };
 
   useEffect(() => {
     if (activeFile?.parentId === folder.id) setIsExpanded(true);
-  }, [activeFile, folder]);
+  }, [activeFile, folder.id]);
 
   useEffect(() => {
     if (activeFolder?.parentId === folder.id) setIsExpanded(true);
-  }, [activeFolder, folder]);
+  }, [activeFolder, folder.id]);
 
   return (
     <>
-      <div
+      <FileTreeEntryLayout
+        icon={isExpanded ? <IconFolderOpen /> : <IconFolder />}
         onClick={toggleExpansion}
-        data-file-type={folder.type}
-        key={folder.id}
-        className={clsx(
-          "file-tree-entry-outer-container",
-          activeFolder?.id === folder.id && "file-tree-entry--selected",
-        )}
+        isActive={isActive}
+        dataType={folder.type}
+        activeClassName="file-tree-entry--selected"
       >
-        {isExpanded ? <IconFolderOpen /> : <IconFolder />}
-        <div className="file-tree-entry-inner-container">
-          <div className="file-tree-entry-text ml-0.5">
-            {folder.id === sidebarEditing ? (
-              <input
-                type="text"
-                className={clsx(
-                  "w-[14ch] bg-white pl-1 text-black",
-                  !validateName(folderName) && "outline-red-400",
-                )}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFolderName(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleFolderRename()}
-                onBlur={handleFolderRename}
-                autoFocus
-              />
-            ) : (
-              <span className="file-tree-entry-text">{folder.name}</span>
-            )}
-          </div>
+        <div className="flex w-full items-center">
+          <EditableNameInput
+            key={folder.id}
+            isEditing={isEditing}
+            initialValue={folder.name}
+            onSave={handleFolderSave}
+            onCancel={resetSidebarRenameId}
+            validateFn={validateName}
+            textClassName="file-tree-entry-text"
+          />
           <IconChevronRight
             className={clsx(
               "ml-auto transform-gpu transition duration-75",
@@ -80,7 +69,7 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
             )}
           />
         </div>
-      </div>
+      </FileTreeEntryLayout>
       {isExpanded && <RenderFileTree parentId={folder.id} />}
     </>
   );

@@ -1,4 +1,4 @@
-import { Document, FileTree, Folder } from "../config/dexie";
+import { Document, FileTree, Folder } from "../types/types";
 
 const isDocument = (node: FileTree): node is Document => {
   return node.type === "DOCUMENT";

@@ -1,21 +1,27 @@
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import toast from "react-hot-toast";
 import { exportDocuments } from "../../actions/export";
 import { createDocument } from "../../actions/files";
 import { createFolder, selectFolder } from "../../actions/folders";
-import { deleteSidebarItem, resetSidebarRenameItem } from "../../actions/state";
+import { deleteSidebarItem, resetSidebarRenameId } from "../../actions/state";
 import useSidebarDeleting from "../../hooks/use-sidebar-deleting";
 import { IconDownload, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";
 import RenderFileTree from "./RenderFileTree";
 
-const Sidebar = () => {
+type Props = {
+  className?: string;
+};
+
+const Sidebar = ({ className }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const itemToDeleteState = useSidebarDeleting();
 
   const handleCreateNewDocument = async () => await createDocument();
+
   const handleCreateFolder = async () => await createFolder();
 
   const toggleDeleting = () => setIsDeleting((prev) => !prev);
@@ -29,7 +35,7 @@ const Sidebar = () => {
     if (event.target !== event.currentTarget) return;
 
     await selectFolder(-1);
-    await resetSidebarRenameItem();
+    await resetSidebarRenameId();
   };
 
   const handleSidebarDelete = async () => {
@@ -62,32 +68,35 @@ const Sidebar = () => {
       <aside
         onClick={handleSidebarClick}
         id="sidebar"
-        className="flex w-[196px] shrink-0 flex-col bg-gray-50 md:w-[256px]"
+        className={clsx(
+          "absolute inset-y-0 flex w-[196px] shrink-0 flex-col bg-gray-50 transition md:static md:w-[256px]",
+          className,
+        )}
       >
-        <div className="flex *:flex-1">
+        <div className="flex h-[40px] *:flex-1">
           <Button
             tooltipMessage="New Document"
             onClick={handleCreateNewDocument}
             icon={IconPlus}
-            className="size-[40px] bg-gray-700"
+            className="sidebar-action"
           />
           <Button
             tooltipMessage="Create Folder"
             onClick={handleCreateFolder}
             icon={IconFolderPlus}
-            className="size-[40px] bg-gray-700"
+            className="sidebar-action"
           />
           <Button
             tooltipMessage="Delete Document"
             onClick={toggleDeleting}
             icon={IconTrash}
-            className="h-[40px] bg-slate-500"
+            className="sidebar-action"
           />
           <Button
             tooltipMessage="Export All Documents"
             onClick={handleExportAllDocuments}
             icon={IconDownload}
-            className="h-[40px] bg-neutral-500"
+            className="sidebar-action"
           />
         </div>
         <RenderFileTree parentId={-1} />

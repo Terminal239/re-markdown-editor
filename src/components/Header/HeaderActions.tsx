@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { saveDocument } from "../../actions/files";
-import { Document } from "../../config/dexie";
+import { Document } from "../../types/types";
 import { IconFileArrowDown, IconFloppyDisk, IconRotate } from "../Icons";
 import Button from "../Reusable/Button";
 

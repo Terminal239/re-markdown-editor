@@ -14,6 +14,12 @@ export const initialUIState: UIState = {
   isEditorExpanded: true,
 };
 
+export const toggleSidebar = (uiDispatch: React.Dispatch<UIAction>) =>
+  uiDispatch({ type: "toggle-sidebar" });
+
+export const toggleEditor = (uiDispatch: React.Dispatch<UIAction>) =>
+  uiDispatch({ type: "toggle-editor" });
+
 export const uiReducer = (state: UIState, action: UIAction): UIState => {
   switch (action.type) {
     case "toggle-sidebar": {

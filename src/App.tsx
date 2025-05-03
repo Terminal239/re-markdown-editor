@@ -3,7 +3,9 @@ import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import Preview from "./components/Preview";
+import Container from "./components/Reusable/Container";
 import EmptyState from "./components/Reusable/EmptyState";
+import Overlay from "./components/Reusable/Overlay";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Wrapper/Main";
 import { UIContext, UIDispatchContext } from "./context/UIContext";
@@ -21,22 +23,21 @@ const App = () => {
   return (
     <UIContext value={uiState}>
       <UIDispatchContext value={uiDispatch}>
-        <div className="flex h-full">
-          {uiState.isSidebarOpen && <Sidebar />}
-          <div className="flex flex-1 flex-col">
-            <Header />
-            <Main>
-              {activeFile !== null ? (
-                <>
-                  <Editor />
-                  <Preview />
-                </>
-              ) : (
-                <EmptyState />
-              )}
-            </Main>
-          </div>
-        </div>
+        {uiState.isSidebarOpen && <Overlay />}
+        {uiState.isSidebarOpen && <Sidebar />}
+        <Container>
+          <Header />
+          <Main>
+            {activeFile !== null ? (
+              <>
+                <Editor />
+                <Preview />
+              </>
+            ) : (
+              <EmptyState />
+            )}
+          </Main>
+        </Container>
         <Toaster />
       </UIDispatchContext>
     </UIContext>

@@ -3,6 +3,7 @@ import { ScrollSyncPane } from "react-scroll-sync";
 import { saveDocument } from "../../actions/files";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 import useActiveFile from "../../hooks/use-active-file";
+import { toggleEditor } from "../../reducer/ui";
 import PaneHeader from "../Reusable/PaneHeader";
 
 const Editor = () => {
@@ -18,8 +19,6 @@ const Editor = () => {
     await saveDocument({ ...activeFile, content: event.target.value });
   };
 
-  const toggleEditor = () => uiDispatch({ type: "toggle-editor" });
-
   if (!isEditorExpanded) {
     return null;
   }
@@ -29,7 +28,7 @@ const Editor = () => {
       <PaneHeader
         title="Markdown"
         isExpanded={isEditorExpanded}
-        onToggleClick={toggleEditor}
+        onToggleClick={() => toggleEditor(uiDispatch)}
         toggleButtonClassName="lg:hidden"
       />
       <div className="size-full p-1">

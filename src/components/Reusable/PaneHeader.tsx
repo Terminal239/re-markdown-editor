@@ -17,7 +17,7 @@ const PaneHeader: React.FC<PaneHeaderProps> = ({
   toggleButtonClassName = "",
 }) => {
   return (
-    <div className="flex h-[32px] flex-shrink-0 items-center bg-gray-200 px-4 py-2 text-sm sm:text-base">
+    <div className="flex h-[32px] flex-shrink-0 items-center bg-gray-200 px-4 py-2 text-sm text-gray-700">
       {title}
       <Button
         tooltipMessage="Toggle Preview"
