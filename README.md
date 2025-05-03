@@ -7,7 +7,7 @@ A simple and efficient markdown editor built with React.
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Terminal239/markdown-editor.git
+   git clone https://github.com/Terminal239/re-markdown-editor.git
    cd markdown-editor
    ```
 
