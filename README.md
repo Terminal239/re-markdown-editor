@@ -60,8 +60,8 @@ markdown-editor/
 │   ├── context/         # React context providers
 │   ├── hooks/           # Custom React hooks
 │   ├── lib/             # Utility functions and libraries
-│   ├── reducer/         # State management logic (if using reducers)
-│   ├── actions/         # Action creators (if applicable)
+│   ├── reducer/         # State management logic 
+│   ├── actions/         # Action creators
 │   ├── styles/          # Global styles and themes
 │   ├── types/           # TypeScript type definitions
 │   ├── App.tsx          # Main application component
@@ -71,7 +71,7 @@ markdown-editor/
 ├── index.html           # HTML entry point
 ├── LICENSE              # Project license file
 ├── package.json         # Project metadata and dependencies
-├── README.md            # Project documentation (this file)
+├── README.md            # Project documentation 
 ├── tsconfig.json        # TypeScript configuration
 ├── tsconfig.node.json   # TypeScript Node configuration
 └── vite.config.ts       # Vite configuration
