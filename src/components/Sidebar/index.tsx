@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import toast from "react-hot-toast";
 import { exportDocuments } from "../actions/export";
 import { createDocument } from "../actions/files";
 import { createFolder, selectFolder } from "../actions/folders";
+import { deleteSidebarItem, resetSidebarRenameItem } from "../actions/state";
+import useSidebarDeleting from "../hooks/use-sidebar-deleting";
 import { IconDownload, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";
@@ -10,6 +13,7 @@ import RenderFileTree from "./RenderFileTree";
 
 const Sidebar = () => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const item = useSidebarDeleting();
 
   const handleCreateNewDocument = async () => await createDocument();
   const handleCreateFolder = async () => await createFolder();
@@ -25,11 +29,37 @@ const Sidebar = () => {
     if (event.target !== event.currentTarget) return;
 
     await selectFolder(-1);
+    await resetSidebarRenameItem();
   };
+
+  const handleSidebarDelete = async () => {
+    await deleteSidebarItem(item);
+
+    const isFolder = item.type === "FOLDER";
+    const itemLabelCapital = isFolder ? "Folder" : "Document";
+
+    toast.success(`${itemLabelCapital} deleted successfully!`, {
+      duration: 5000,
+    });
+
+    setIsDeleting(false);
+  };
+
+  useEffect(() => {
+    const onKeyDown = async (e: KeyboardEvent) => {
+      if (e.key === "Delete") {
+        e.preventDefault();
+        setIsDeleting(true);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [item]);
 
   return (
     <>
-      <aside onClick={handleSidebarClick} id="sidebar" className="w-[196px] md:w-[256px] bg-gray-50 flex flex-col">
+      <aside onClick={handleSidebarClick} id="sidebar" className="w-[196px] shrink-0 md:w-[256px] bg-gray-50 flex flex-col">
         <div className="flex *:flex-1">
           <Button tooltipMessage="New Document" onClick={handleCreateNewDocument} icon={IconPlus} className="bg-gray-700 size-[40px]" />
           <Button tooltipMessage="Create Folder" onClick={handleCreateFolder} icon={IconFolderPlus} className="bg-gray-700 size-[40px]" />
@@ -38,7 +68,7 @@ const Sidebar = () => {
         </div>
         <RenderFileTree parentId={-1} />
       </aside>
-      {isDeleting && createPortal(<DeleteModal toggleModal={toggleDeleting} />, document.getElementById("portal")!)}
+      {isDeleting && item.type !== "NULL" && createPortal(<DeleteModal type={item.type} onClick={handleSidebarDelete} toggleModal={toggleDeleting} />, document.getElementById("portal")!)}
     </>
   );
 };

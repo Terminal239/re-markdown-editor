@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { formatDistance } from "date-fns";
 import { memo, useState } from "react";
 import { Document } from "../../config/dexie";
 import { validateName } from "../../lib/utils";
@@ -13,7 +12,7 @@ type RenderDocumentProps = {
   document: Document;
 };
 
-const formatDate = (date: Date) => formatDistance(date, new Date(), { addSuffix: true });
+// const formatDate = (date: Date) => formatDistance(date, new Date(), { addSuffix: true });
 
 const RenderDocument = ({ document }: RenderDocumentProps) => {
   const [filename, setFilename] = useState(document?.name);
@@ -46,7 +45,6 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
           ) : (
             <span className="file-tree-entry-text">{document.name}.md</span>
           )}
-          {editing?.id === document.id && <div className="size-[8px] rounded-full bg-gray-700"></div>}
         </div>
       </div>
     </div>

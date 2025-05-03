@@ -17,14 +17,26 @@ const getFolderTree = async (parentId?: number) => {
 };
 
 const createFolder = async (id?: number) => {
-  const activeFolderId = id ? id : (await db.appState.get("activeFolderId"))?.value;
+  await db.transaction("rw", db.folders, db.appState, async () => {
+    const activeFolderId = id ? id : (await db.appState.get("activeFolderId"))?.value;
 
-  const folderId = await db.folders.add(getFolderInstance(activeFolderId));
-  await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: folderId });
+    const folderId = await db.folders.add(getFolderInstance(activeFolderId));
+    await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: folderId });
+    await db.appState.update("activeFolderId", { key: "activeFolderId", value: folderId });
+  });
 };
 
 const selectFolder = async (id: number) => {
-  await db.appState.update("activeFolderId", { key: "activeFolderId", value: id });
+  await db.transaction("rw", db.appState, async () => {
+    db.appState.update("activeFolderId", { key: "activeFolderId", value: id });
+    db.appState.update("sidebarDeleteId", {
+      key: "sidebarDeleteId",
+      value: {
+        type: "FOLDER",
+        id,
+      },
+    });
+  });
 };
 
 const saveFolder = async (folder: Folder) => {
@@ -42,8 +54,10 @@ const deleteHelper = async (id: number) => {
 };
 
 const deleteFolder = async (id: number) => {
-  await deleteHelper(id);
-  await db.appState.update("activeFolderId", { key: "activeFolderId", value: -1 });
+  await db.transaction("rw", db.folders, db.files, db.appState, async () => {
+    await deleteHelper(id);
+    await db.appState.update("activeFolderId", { key: "activeFolderId", value: -1 });
+  });
 };
 
 export { createFolder, deleteFolder, getFolderTree, saveFolder, selectFolder };

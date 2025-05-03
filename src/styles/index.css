@@ -7,7 +7,7 @@
 html,
 body,
 #root {
-  @apply h-full w-full;
+  @apply size-full min-h-full min-w-full overflow-y-hidden;
 }
 
 body {

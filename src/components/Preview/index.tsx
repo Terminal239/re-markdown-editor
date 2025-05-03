@@ -9,8 +9,8 @@ import MarkdownWrapper from "./MarkdownWrapper";
 
 const Preview = () => {
   const editing = useActiveFile();
-
   const { isEditorExpanded } = useUIState();
+
   const uiDispatch = useUIDispatch();
   const { width } = useWindowSize();
 

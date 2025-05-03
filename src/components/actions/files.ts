@@ -11,11 +11,13 @@ const getDocumentInstance = (parentId?: number): Document => ({
 });
 
 const createDocument = async (id?: number) => {
-  const activeFolderId = id ? id : (await db.appState.get("activeFolderId"))?.value;
+  await db.transaction("rw", db.files, db.appState, async () => {
+    const activeFolderId = id ? id : (await db.appState.get("activeFolderId"))?.value;
 
-  const documentId = await db.files.add(getDocumentInstance(activeFolderId));
-  await db.appState.update("activeFileId", { key: "activeFileId", value: documentId });
-  await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: documentId });
+    const documentId = await db.files.add(getDocumentInstance(activeFolderId));
+    await db.appState.update("activeFileId", { key: "activeFileId", value: documentId });
+    await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: documentId });
+  });
 };
 
 const saveDocument = async (document: Document) => {
@@ -23,18 +25,23 @@ const saveDocument = async (document: Document) => {
 };
 
 const selectDocument = async (id: number) => {
-  await db.appState.update("activeFileId", { key: "activeFileId", value: id });
+  await db.transaction("rw", db.appState, async () => {
+    await db.appState.update("activeFileId", { key: "activeFileId", value: id });
+    db.appState.update("sidebarDeleteId", {
+      key: "sidebarDeleteId",
+      value: {
+        type: "DOCUMENT",
+        id,
+      },
+    });
+  });
 };
 
 const deleteDocument = async (id: number) => {
-  await db.files.delete(id);
-
-  const documents = await db.files.toArray();
-  const folders = await db.folders.toArray();
-
-  if (documents.length === 0 && folders.length === 0) createDocument();
-  else if (documents.length !== 0) selectDocument(documents[0].id);
-  else selectDocument(-1);
+  await db.transaction("rw", db.files, db.appState, async () => {
+    await db.files.delete(id);
+    await db.appState.update("activeFileId", { key: "activeFileId", value: -1 });
+  });
 };
 
 export { createDocument, deleteDocument, getDocumentInstance, saveDocument, selectDocument };

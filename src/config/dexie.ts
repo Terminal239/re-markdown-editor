@@ -49,6 +49,13 @@ db.on("populate", async () => {
   await db.appState.add({ key: "activeFileId", value: document.id });
   await db.appState.add({ key: "activeFolderId", value: -1 });
   await db.appState.add({ key: "sidebarRenameId", value: -1 });
+  await db.appState.add({
+    key: "sidebarDeleteId",
+    value: {
+      type: "NULL",
+      id: -1,
+    },
+  });
 });
 
 export { db };
