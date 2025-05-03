@@ -1,62 +1,101 @@
-# React + TypeScript + Vite
+# Markdown Editor
 
-This template provides a minimal setup to get React working in Vite with HMR and
-some ESLint rules.
+A simple and efficient markdown editor built with [Technology Stack - e.g.,
+React, TypeScript, Vite].
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react)
-  uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc)
-  uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Clone the repository:**
 
-## Expanding the ESLint configuration
+   ```bash
+   git clone https://github.com/Terminal239/markdown-editor.git
+   cd markdown-editor
+   ```
 
-If you are developing a production application, we recommend updating the
-configuration to enable type-aware lint rules:
+2. **Install dependencies:**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+## Usage
+
+1. **Start the development server:**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+2. Open your browser and navigate to `http://localhost:5173` (or the port
+   specified in your terminal).
+3. Start editing your markdown files!
+
+## Features
+
+- **Real-time Preview:** See your formatted Markdown output instantly as you
+  type.
+- **File Operations:** Support for opening, saving, and creating new Markdown
+  files.
+- **Clean Interface:** Simple and distraction-free writing environment.
+- **File Tree:** Browse and open files from a sidebar file explorer.
+
+## Folder Structure
+
+A brief overview of the project's main directories:
+
+```plaintext
+markdown-editor/
+├── public/              # Static assets
+├── src/                 # Source files
+│   ├── assets/          # Project assets (images, fonts, etc.)
+│   ├── components/      # Reusable UI components
+│   ├── config/          # Configuration files
+│   ├── context/         # React context providers
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utility functions and libraries
+│   ├── reducer/         # State management logic (if using reducers)
+│   ├── actions/         # Action creators (if applicable)
+│   ├── styles/          # Global styles and themes
+│   ├── types/           # TypeScript type definitions
+│   ├── App.tsx          # Main application component
+│   ├── main.tsx         # Application entry point
+│   └── vite-env.d.ts    # Vite environment types
+├── .gitignore           # Git ignore rules
+├── index.html           # HTML entry point
+├── LICENSE              # Project license file
+├── package.json         # Project metadata and dependencies
+├── README.md            # Project documentation (this file)
+├── tsconfig.json        # TypeScript configuration
+├── tsconfig.node.json   # TypeScript Node configuration
+└── vite.config.ts       # Vite configuration
 ```
 
-You can also install
-[eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x)
-and
-[eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom)
-for React-specific lint rules:
+_(Note: This structure is based on common Vite/React project layouts and the
+provided `src` directory information. Adjust as necessary.)_
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## Contribution Guidelines
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
-```
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/your-feature-name`).
+6. Open a Pull Request.
+
+Please ensure your code adheres to the project's coding standards and includes
+tests where appropriate.
+
+## License
+
+This project is licensed under the [Your License Name - e.g., MIT] License. See
+the `LICENSE` file for details.
