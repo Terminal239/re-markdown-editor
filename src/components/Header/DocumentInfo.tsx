@@ -34,7 +34,7 @@ const DocumentInfo = ({ activeFile }: Props) => {
       </p>,
       {
         duration: 5000,
-      }
+      },
     );
   };
 
@@ -45,12 +45,12 @@ const DocumentInfo = ({ activeFile }: Props) => {
   return (
     <div className="flex items-center gap-2 lg:border-l lg:pl-4">
       <IconDocument className="hidden lg:block" />
-      <div className="flex flex-col ml-4 lg:ml-0">
-        <span className="text-[12px] -mb-1 text-gray-700 hidden lg:inline">Document Name</span>
-        <span onClick={toggleEditing} className="max-lg:ml-2 text-base cursor-pointer font-bold">
+      <div className="ml-4 flex flex-col lg:ml-0">
+        <span className="-mb-1 hidden text-[12px] text-gray-700 lg:inline">Document Name</span>
+        <span onClick={toggleEditing} className="cursor-pointer text-base font-bold max-lg:ml-2">
           {isEditing ? (
             <input
-              className="outline-none border-b-1 h-4 rounded-sm bg-gray-100 p-1 w-[120px]"
+              className="h-4 w-[120px] rounded-sm border-b-1 bg-gray-100 p-1 outline-none"
               type="text"
               onKeyDown={(e) => e.key === "Enter" && toggleEditing()}
               onChange={(e) => setDocumentName(e.target.value)}

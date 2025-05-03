@@ -8,7 +8,7 @@ type Props = {
 const Main = ({ children }: Props) => {
   return (
     <ScrollSync>
-      <main className="flex flex-1 overflow-hidden min-w-[320px]">{children}</main>
+      <main className="flex min-w-[320px] flex-1 overflow-hidden">{children}</main>
     </ScrollSync>
   );
 };

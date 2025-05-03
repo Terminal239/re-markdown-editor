@@ -18,7 +18,14 @@ function MarkdownWrapper({ content }: Props) {
         code({ inline, className, children, ...props }) {
           const match = (className || "").match(/language-(\w+)/);
           return !inline && match ? (
-            <SyntaxHighlighter children={String(children).replace(/\n$/, "")} style={dracula} customStyle={{ fontSize: "18px" }} language={match[1]} PreTag="div" {...props} />
+            <SyntaxHighlighter
+              children={String(children).replace(/\n$/, "")}
+              style={dracula}
+              customStyle={{ fontSize: "18px" }}
+              language={match[1]}
+              PreTag="div"
+              {...props}
+            />
           ) : (
             <code className={clsx(className, "text-lg")} {...props}>
               {children}

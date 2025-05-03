@@ -16,19 +16,40 @@ interface Props {
   rounded?: boolean;
   tooltipMessage?: string;
 }
-const Button = ({ onClick, icon: Icon, label, loading = false, className = "", rounded = false, tooltipMessage = "" }: Props) => {
+const Button = ({
+  onClick,
+  icon: Icon,
+  label,
+  loading = false,
+  className = "",
+  rounded = false,
+  tooltipMessage = "",
+}: Props) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <button onClick={onClick} className={clsx("flex items-center justify-center gap-1 font-bold text-white hover:opacity-90", className, rounded && "rounded")}>
+          <button
+            onClick={onClick}
+            className={clsx(
+              "flex items-center justify-center gap-1 font-bold text-white hover:opacity-90",
+              className,
+              rounded && "rounded",
+            )}
+          >
             {Icon && (loading ? <Icon className="animate-spin" /> : <Icon />)}
-            {label && <span className="hidden lg:inline">{loading ? label.replace(/Save Document/, "Saving") : label}</span>}
+            {label && (
+              <span className="hidden lg:inline">
+                {loading ? label.replace(/Save Document/, "Saving") : label}
+              </span>
+            )}
           </button>
         </TooltipTrigger>
         {tooltipMessage !== "" && (
           <TooltipContent>
-            <p className="text-white text-[12px] md:text-[14px] px-2 rounded shadow h-[24px] bg-black flex items-center">{tooltipMessage}</p>
+            <p className="flex h-[24px] items-center rounded bg-black px-2 text-[12px] text-white shadow md:text-[14px]">
+              {tooltipMessage}
+            </p>
           </TooltipContent>
         )}
       </Tooltip>

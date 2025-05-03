@@ -57,19 +57,25 @@ const HeaderActions = ({ activeFile }: Props) => {
         clearTimeout(timeoutRef.current);
       }
     },
-    []
+    [],
   );
 
   return (
     <div className="ml-auto flex items-center">
-      <Button tooltipMessage="Export Document" onClick={handleDocumentExport} icon={IconFileArrowDown} label="Export" className="bg-slate-700 px-2 lg:pr-3 lg:pl-2 h-[40px]" />
+      <Button
+        tooltipMessage="Export Document"
+        onClick={handleDocumentExport}
+        icon={IconFileArrowDown}
+        label="Export"
+        className="h-[40px] bg-slate-700 px-2 lg:pr-3 lg:pl-2"
+      />
       <Button
         tooltipMessage="Save Document"
         onClick={handleSaveDocument}
         icon={isSaving ? IconRotate : IconFloppyDisk}
         label={isSaving ? "Saving" : "Save Document"}
         loading={isSaving}
-        className="bg-gray-700 lg:min-w-[180px] px-2 lg:pr-3 lg:pl-2 h-[40px]"
+        className="h-[40px] bg-gray-700 px-2 lg:min-w-[180px] lg:pr-3 lg:pl-2"
       />
     </div>
   );

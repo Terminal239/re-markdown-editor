@@ -59,16 +59,49 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside onClick={handleSidebarClick} id="sidebar" className="w-[196px] shrink-0 md:w-[256px] bg-gray-50 flex flex-col">
+      <aside
+        onClick={handleSidebarClick}
+        id="sidebar"
+        className="flex w-[196px] shrink-0 flex-col bg-gray-50 md:w-[256px]"
+      >
         <div className="flex *:flex-1">
-          <Button tooltipMessage="New Document" onClick={handleCreateNewDocument} icon={IconPlus} className="bg-gray-700 size-[40px]" />
-          <Button tooltipMessage="Create Folder" onClick={handleCreateFolder} icon={IconFolderPlus} className="bg-gray-700 size-[40px]" />
-          <Button tooltipMessage="Delete Document" onClick={toggleDeleting} icon={IconTrash} className="bg-slate-500 h-[40px]" />
-          <Button tooltipMessage="Export All Documents" onClick={handleExportAllDocuments} icon={IconDownload} className="bg-neutral-500 h-[40px]" />
+          <Button
+            tooltipMessage="New Document"
+            onClick={handleCreateNewDocument}
+            icon={IconPlus}
+            className="size-[40px] bg-gray-700"
+          />
+          <Button
+            tooltipMessage="Create Folder"
+            onClick={handleCreateFolder}
+            icon={IconFolderPlus}
+            className="size-[40px] bg-gray-700"
+          />
+          <Button
+            tooltipMessage="Delete Document"
+            onClick={toggleDeleting}
+            icon={IconTrash}
+            className="h-[40px] bg-slate-500"
+          />
+          <Button
+            tooltipMessage="Export All Documents"
+            onClick={handleExportAllDocuments}
+            icon={IconDownload}
+            className="h-[40px] bg-neutral-500"
+          />
         </div>
         <RenderFileTree parentId={-1} />
       </aside>
-      {isDeleting && itemToDeleteState.type !== "NULL" && createPortal(<DeleteModal type={itemToDeleteState.type} onClick={handleSidebarDelete} toggleModal={toggleDeleting} />, document.getElementById("portal")!)}
+      {isDeleting &&
+        itemToDeleteState.type !== "NULL" &&
+        createPortal(
+          <DeleteModal
+            type={itemToDeleteState.type}
+            onClick={handleSidebarDelete}
+            toggleModal={toggleDeleting}
+          />,
+          document.getElementById("portal")!,
+        )}
     </>
   );
 };

@@ -17,13 +17,18 @@ const DeleteModal = ({ toggleModal, onClick, type }: Props) => {
 
   return (
     <ModalWrapper toggleModal={toggleModal}>
-      <div className="bg-white p-4 z-10 w-[320px] rounded">
-        <p className="font-bold md:text-xl mb-2">Delete this {itemLabel}?</p>
-        <p className="mb-4 text-sm md:text-base text-gray-600">
-          Are you sure you want to delete the {itemLabel} named <span className="font-bold text-black">{activeFile?.name}</span>
-          {isFolder ? " and all of its contents?" : " and its contents?"} This action cannot be reversed.
+      <div className="z-10 w-[320px] rounded bg-white p-4">
+        <p className="mb-2 font-bold md:text-xl">Delete this {itemLabel}?</p>
+        <p className="mb-4 text-sm text-gray-600 md:text-base">
+          Are you sure you want to delete the {itemLabel} named{" "}
+          <span className="font-bold text-black">{activeFile?.name}</span>
+          {isFolder ? " and all of its contents?" : " and its contents?"} This action cannot be
+          reversed.
         </p>
-        <button onClick={onClick} className="h-[36px] text-sm md:text-base text-white font-bold rounded text-center bg-red-400 hover:bg-red-500 w-full">
+        <button
+          onClick={onClick}
+          className="h-[36px] w-full rounded bg-red-400 text-center text-sm font-bold text-white hover:bg-red-500 md:text-base"
+        >
           Confirm & Delete {itemLabelCapital}
         </button>
       </div>

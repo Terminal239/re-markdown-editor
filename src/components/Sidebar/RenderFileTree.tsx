@@ -20,7 +20,12 @@ const RenderFileTree = ({ parentId }: RenderFileTreeProps) => {
   const fileTree = useFiles({ parentId });
 
   return (
-    <div className={clsx("overflow-y-auto flex flex-col", fileTree.length !== 0 && parentId !== -1 && "ml-3 border-l border-gray-500/50")}>
+    <div
+      className={clsx(
+        "flex flex-col overflow-y-auto",
+        fileTree.length !== 0 && parentId !== -1 && "ml-3 border-l border-gray-500/50",
+      )}
+    >
       {fileTree.sort(arrangeFileTree).map((treeNode) => {
         if (isDocument(treeNode))
           return (

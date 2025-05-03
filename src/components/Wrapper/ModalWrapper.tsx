@@ -8,7 +8,7 @@ type Props = {
 const ModalWrapper = ({ children, toggleModal }: Props) => {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className="size-full bg-black/25 absolute inset-0" onClick={toggleModal}></div>
+      <div className="absolute inset-0 size-full bg-black/25" onClick={toggleModal}></div>
       {children}
     </div>
   );

@@ -22,14 +22,23 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
   const handleItemClick = async (documentId: number) => await selectDocument(documentId);
 
   const handleDocumentRename = async () => {
-    if (filename !== undefined && validateName(filename)) await saveDocument({ ...document, name: filename });
+    if (filename !== undefined && validateName(filename))
+      await saveDocument({ ...document, name: filename });
     else return;
 
     await resetSidebarRenameItem();
   };
 
   return (
-    <div onClick={() => handleItemClick(document.id)} data-file-type={document.type} key={document.id} className={clsx("file-tree-entry-outer-container", activeFile?.id === document.id && "bg-gray-200")}>
+    <div
+      onClick={() => handleItemClick(document.id)}
+      data-file-type={document.type}
+      key={document.id}
+      className={clsx(
+        "file-tree-entry-outer-container",
+        activeFile?.id === document.id && "bg-gray-200",
+      )}
+    >
       {activeFile?.id === document.id ? <IconFilePen /> : <IconDocument className="!h-3.5" />}
       <div className="flex flex-col items-center">
         <div className={clsx("file-tree-entry-inner-container")}>
@@ -38,7 +47,10 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilename(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleDocumentRename()}
-              className={clsx("bg-white text-black pl-1 w-[16ch]", !validateName(filename) && " outline-red-400 ")}
+              className={clsx(
+                "w-[16ch] bg-white pl-1 text-black",
+                !validateName(filename) && "outline-red-400",
+              )}
               onBlur={handleDocumentRename}
               autoFocus
             />

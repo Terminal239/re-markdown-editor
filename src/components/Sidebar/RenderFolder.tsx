@@ -28,7 +28,8 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
   };
 
   const handleFolderRename = async () => {
-    if (folderName !== undefined && validateName(folderName)) await saveFolder({ ...folder, name: folderName });
+    if (folderName !== undefined && validateName(folderName))
+      await saveFolder({ ...folder, name: folderName });
     else return;
 
     await resetSidebarRenameItem();
@@ -44,14 +45,25 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
 
   return (
     <>
-      <div onClick={toggleExpansion} data-file-type={folder.type} key={folder.id} className={clsx("file-tree-entry-outer-container", activeFolder?.id === folder.id && "file-tree-entry--selected")}>
+      <div
+        onClick={toggleExpansion}
+        data-file-type={folder.type}
+        key={folder.id}
+        className={clsx(
+          "file-tree-entry-outer-container",
+          activeFolder?.id === folder.id && "file-tree-entry--selected",
+        )}
+      >
         {isExpanded ? <IconFolderOpen /> : <IconFolder />}
         <div className="file-tree-entry-inner-container">
           <div className="file-tree-entry-text ml-0.5">
             {folder.id === sidebarEditing ? (
               <input
                 type="text"
-                className={clsx("bg-white text-black pl-1 w-[14ch]", !validateName(folderName) && " outline-red-400 ")}
+                className={clsx(
+                  "w-[14ch] bg-white pl-1 text-black",
+                  !validateName(folderName) && "outline-red-400",
+                )}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFolderName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleFolderRename()}
                 onBlur={handleFolderRename}
@@ -61,7 +73,12 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
               <span className="file-tree-entry-text">{folder.name}</span>
             )}
           </div>
-          <IconChevronRight className={clsx("ml-auto transition transform-gpu duration-75", isExpanded && "rotate-90")} />
+          <IconChevronRight
+            className={clsx(
+              "ml-auto transform-gpu transition duration-75",
+              isExpanded && "rotate-90",
+            )}
+          />
         </div>
       </div>
       {isExpanded && <RenderFileTree parentId={folder.id} />}

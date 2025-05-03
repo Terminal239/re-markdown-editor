@@ -25,11 +25,16 @@ const Preview = () => {
   if (activeFile === null) return null;
 
   return (
-    <div className={clsx("flex flex-col flex-1 lg:border-l border-gray-500/40 overflow-hidden min-h-0", !isEditorExpanded && "!border-none")}>
+    <div
+      className={clsx(
+        "flex min-h-0 flex-1 flex-col overflow-hidden border-gray-500/40 lg:border-l",
+        !isEditorExpanded && "!border-none",
+      )}
+    >
       <PaneHeader title="Preview" isExpanded={isEditorExpanded} onToggleClick={toggleEditor} />
       <ScrollSyncPane>
         <div className="flex-1 overflow-y-auto">
-          <article className="prose prose-sm md:prose-base p-2 md:p-4 pb-12 max-md:flex-1 max-md:w-0 max-md:min-w-full md:max-w-[960px] mx-auto">
+          <article className="prose prose-sm md:prose-base mx-auto p-2 pb-12 max-md:w-0 max-md:min-w-full max-md:flex-1 md:max-w-[960px] md:p-4">
             <MarkdownWrapper content={activeFile.content} />
           </article>
         </div>
