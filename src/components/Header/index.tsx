@@ -6,7 +6,7 @@ import DocumentInfo from "./DocumentInfo";
 import HeaderActions from "./HeaderActions";
 
 const Header = () => {
-  const editing = useActiveFile();
+  const activeFile = useActiveFile();
 
   const { isSidebarOpen } = useUIState();
   const uiDispatch = useUIDispatch();
@@ -18,8 +18,8 @@ const Header = () => {
       <header className="flex items-center lg:gap-4 bg-gray-100">
         <Button tooltipMessage="Toggle Sidebar" onClick={handleToggleSidebar} icon={isSidebarOpen ? IconXMark : IconMenu} className="size-[40px] bg-gray-700" />
         <span className="hidden lg:inline uppercase tracking-[8px] font-bold">Markdown</span>
-        {editing !== null && <DocumentInfo editing={editing} />}
-        {editing !== null && <HeaderActions editing={editing} />}
+        {activeFile !== null && <DocumentInfo activeFile={activeFile} />}
+        {activeFile !== null && <HeaderActions activeFile={activeFile} />}
       </header>
     </>
   );

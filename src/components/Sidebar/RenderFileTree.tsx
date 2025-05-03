@@ -17,21 +17,21 @@ const arrangeFileTree = (a: FileTree, b: FileTree): number => {
 };
 
 const RenderFileTree = ({ parentId }: RenderFileTreeProps) => {
-  const files = useFiles({ parentId });
+  const fileTree = useFiles({ parentId });
 
   return (
-    <div className={clsx("overflow-y-auto flex flex-col", files.length !== 0 && parentId !== -1 && "ml-3 border-l border-gray-500/50")}>
-      {files.sort(arrangeFileTree).map((element) => {
-        if (isDocument(element))
+    <div className={clsx("overflow-y-auto flex flex-col", fileTree.length !== 0 && parentId !== -1 && "ml-3 border-l border-gray-500/50")}>
+      {fileTree.sort(arrangeFileTree).map((treeNode) => {
+        if (isDocument(treeNode))
           return (
-            <Menu id={element.id} key={element.id} type={element.type}>
-              <RenderDocument document={element} />
+            <Menu id={treeNode.id} key={treeNode.id} type={treeNode.type}>
+              <RenderDocument document={treeNode} />
             </Menu>
           );
-        if (isFolder(element))
+        if (isFolder(treeNode))
           return (
-            <Menu id={element.id} key={element.id} type={element.type}>
-              <RenderFolder key={element.id} folder={element} />
+            <Menu id={treeNode.id} key={treeNode.id} type={treeNode.type}>
+              <RenderFolder key={treeNode.id} folder={treeNode} />
             </Menu>
           );
         else return <></>;

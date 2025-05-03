@@ -13,7 +13,7 @@ import RenderFileTree from "./RenderFileTree";
 
 const Sidebar = () => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const item = useSidebarDeleting();
+  const itemToDeleteState = useSidebarDeleting();
 
   const handleCreateNewDocument = async () => await createDocument();
   const handleCreateFolder = async () => await createFolder();
@@ -33,9 +33,9 @@ const Sidebar = () => {
   };
 
   const handleSidebarDelete = async () => {
-    await deleteSidebarItem(item);
+    await deleteSidebarItem(itemToDeleteState);
 
-    const isFolder = item.type === "FOLDER";
+    const isFolder = itemToDeleteState.type === "FOLDER";
     const itemLabelCapital = isFolder ? "Folder" : "Document";
 
     toast.success(`${itemLabelCapital} deleted successfully!`, {
@@ -55,7 +55,7 @@ const Sidebar = () => {
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [item]);
+  }, [itemToDeleteState]);
 
   return (
     <>
@@ -68,7 +68,7 @@ const Sidebar = () => {
         </div>
         <RenderFileTree parentId={-1} />
       </aside>
-      {isDeleting && item.type !== "NULL" && createPortal(<DeleteModal type={item.type} onClick={handleSidebarDelete} toggleModal={toggleDeleting} />, document.getElementById("portal")!)}
+      {isDeleting && itemToDeleteState.type !== "NULL" && createPortal(<DeleteModal type={itemToDeleteState.type} onClick={handleSidebarDelete} toggleModal={toggleDeleting} />, document.getElementById("portal")!)}
     </>
   );
 };

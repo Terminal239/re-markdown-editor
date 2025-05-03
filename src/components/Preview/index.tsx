@@ -8,7 +8,7 @@ import PaneHeader from "../Reusable/PaneHeader";
 import MarkdownWrapper from "./MarkdownWrapper";
 
 const Preview = () => {
-  const editing = useActiveFile();
+  const activeFile = useActiveFile();
   const { isEditorExpanded } = useUIState();
 
   const uiDispatch = useUIDispatch();
@@ -22,7 +22,7 @@ const Preview = () => {
 
   if (isEditorExpanded && width! < 1024) return null;
 
-  if (editing === null) return null;
+  if (activeFile === null) return null;
 
   return (
     <div className={clsx("flex flex-col flex-1 lg:border-l border-gray-500/40 overflow-hidden min-h-0", !isEditorExpanded && "!border-none")}>
@@ -30,7 +30,7 @@ const Preview = () => {
       <ScrollSyncPane>
         <div className="flex-1 overflow-y-auto">
           <article className="prose prose-sm md:prose-base p-2 md:p-4 pb-12 max-md:flex-1 max-md:w-0 max-md:min-w-full md:max-w-[960px] mx-auto">
-            <MarkdownWrapper content={editing.content} />
+            <MarkdownWrapper content={activeFile.content} />
           </article>
         </div>
       </ScrollSyncPane>

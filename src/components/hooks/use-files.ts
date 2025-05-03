@@ -6,8 +6,8 @@ type Props = {
 };
 
 const useFiles = ({ parentId }: Props) => {
-  const documents = useLiveQuery(() => getFolderTree(parentId)) ?? [];
-  return documents;
+  const fileTree = useLiveQuery(() => getFolderTree(parentId)) ?? [];
+  return fileTree;
 };
 
 export default useFiles;

@@ -12,18 +12,18 @@ import { loadFromLocalStorage } from "./lib/localStorage";
 import { initialUIState, uiReducer } from "./reducer/ui";
 
 const App = () => {
-  const [ui, uiDispatch] = useReducer(uiReducer, loadFromLocalStorage("uiState") ?? initialUIState);
-  const editing = useActiveFile();
+  const [uiState, uiDispatch] = useReducer(uiReducer, loadFromLocalStorage("uiState") ?? initialUIState);
+  const activeFile = useActiveFile();
 
   return (
-    <UIContext value={ui}>
+    <UIContext value={uiState}>
       <UIDispatchContext value={uiDispatch}>
         <div className="flex h-full">
-          {ui.isSidebarOpen && <Sidebar />}
+          {uiState.isSidebarOpen && <Sidebar />}
           <div className="flex-1 flex flex-col">
             <Header />
             <Main>
-              {editing !== null ? (
+              {activeFile !== null ? (
                 <>
                   <Editor />
                   <Preview />

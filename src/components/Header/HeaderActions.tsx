@@ -6,17 +6,17 @@ import { IconFileArrowDown, IconFloppyDisk, IconRotate } from "../Icons";
 import Button from "../Reusable/Button";
 
 type Props = {
-  editing: Document;
+  activeFile: Document;
 };
 
-const HeaderActions = ({ editing }: Props) => {
+const HeaderActions = ({ activeFile }: Props) => {
   const [isSaving, setIsSaving] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
   const handleSaveDocument = useCallback(async () => {
     setIsSaving(true);
-    if (!editing) return;
-    await saveDocument(editing);
+    if (!activeFile) return;
+    await saveDocument(activeFile);
 
     toast.success("Document saved!", {
       duration: 4000,
@@ -27,15 +27,15 @@ const HeaderActions = ({ editing }: Props) => {
     timeoutRef.current = window.setTimeout(handleSaveDocument, 30000);
 
     setIsSaving(false);
-  }, [editing]);
+  }, [activeFile]);
 
   const handleDocumentExport = () => {
-    const file = new Blob([editing?.content ?? ""], { type: "text/markdown" });
+    const file = new Blob([activeFile?.content ?? ""], { type: "text/markdown" });
     const a = document.createElement("a");
     const url = URL.createObjectURL(file);
 
     a.href = url;
-    a.download = `${editing?.name ?? ""}.md`;
+    a.download = `${activeFile?.name ?? ""}.md`;
     a.click();
   };
 

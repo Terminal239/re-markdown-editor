@@ -16,8 +16,8 @@ type RenderDocumentProps = {
 
 const RenderDocument = ({ document }: RenderDocumentProps) => {
   const [filename, setFilename] = useState(document?.name);
-  const editing = useActiveFile();
-  const id = useSidebarEditing();
+  const activeFile = useActiveFile();
+  const sidebarEditingId = useSidebarEditing();
 
   const handleItemClick = async (documentId: number) => await selectDocument(documentId);
 
@@ -29,11 +29,11 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
   };
 
   return (
-    <div onClick={() => handleItemClick(document.id)} data-file-type={document.type} key={document.id} className={clsx("file-tree-entry-outer-container", editing?.id === document.id && "bg-gray-200")}>
-      {editing?.id === document.id ? <IconFilePen /> : <IconDocument className="!h-3.5" />}
+    <div onClick={() => handleItemClick(document.id)} data-file-type={document.type} key={document.id} className={clsx("file-tree-entry-outer-container", activeFile?.id === document.id && "bg-gray-200")}>
+      {activeFile?.id === document.id ? <IconFilePen /> : <IconDocument className="!h-3.5" />}
       <div className="flex flex-col items-center">
         <div className={clsx("file-tree-entry-inner-container")}>
-          {document.id === id ? (
+          {document.id === sidebarEditingId ? (
             <input
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilename(e.target.value)}

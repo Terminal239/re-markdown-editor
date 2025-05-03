@@ -20,14 +20,14 @@ const resetSidebarDeleteId = async () => {
   });
 };
 
-const deleteSidebarItem = async (item: { type: "FOLDER" | "DOCUMENT" | "NULL"; id: number }) => {
-  console.log(item);
-  switch (item.type) {
+const deleteSidebarItem = async (itemToDelete: { type: "FOLDER" | "DOCUMENT" | "NULL"; id: number }) => {
+  console.log(itemToDelete);
+  switch (itemToDelete.type) {
     case "DOCUMENT":
-      deleteDocument(item.id);
+      deleteDocument(itemToDelete.id);
       break;
     case "FOLDER":
-      deleteFolder(item.id);
+      deleteFolder(itemToDelete.id);
       break;
     case "NULL":
     default:

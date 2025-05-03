@@ -8,7 +8,7 @@ type Props = {
 };
 
 const DeleteModal = ({ toggleModal, onClick, type }: Props) => {
-  const editing = useActiveFile();
+  const activeFile = useActiveFile();
 
   // Determine labels based on type
   const isFolder = type === "FOLDER";
@@ -20,7 +20,7 @@ const DeleteModal = ({ toggleModal, onClick, type }: Props) => {
       <div className="bg-white p-4 z-10 w-[320px] rounded">
         <p className="font-bold md:text-xl mb-2">Delete this {itemLabel}?</p>
         <p className="mb-4 text-sm md:text-base text-gray-600">
-          Are you sure you want to delete the {itemLabel} named <span className="font-bold text-black">{editing?.name}</span>
+          Are you sure you want to delete the {itemLabel} named <span className="font-bold text-black">{activeFile?.name}</span>
           {isFolder ? " and all of its contents?" : " and its contents?"} This action cannot be reversed.
         </p>
         <button onClick={onClick} className="h-[36px] text-sm md:text-base text-white font-bold rounded text-center bg-red-400 hover:bg-red-500 w-full">

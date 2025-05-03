@@ -5,11 +5,11 @@ import { saveDocument } from "../actions/files";
 import { IconDocument } from "../Icons";
 
 type Props = {
-  editing: Document;
+  activeFile: Document;
 };
 
-const DocumentInfo = ({ editing }: Props) => {
-  const [documentName, setDocumentName] = useState(editing?.name ?? "");
+const DocumentInfo = ({ activeFile }: Props) => {
+  const [documentName, setDocumentName] = useState(activeFile?.name ?? "");
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditing = () => {
@@ -22,11 +22,11 @@ const DocumentInfo = ({ editing }: Props) => {
       toast.error("Document name cannot be blank", {
         duration: 5000,
       });
-      setDocumentName(editing?.name ?? "");
+      setDocumentName(activeFile?.name ?? "");
       return;
     }
 
-    await saveDocument({ ...editing, name: documentName });
+    await saveDocument({ ...activeFile, name: documentName });
 
     toast.success(
       <p>
@@ -39,8 +39,8 @@ const DocumentInfo = ({ editing }: Props) => {
   };
 
   useEffect(() => {
-    setDocumentName(editing?.name ?? "");
-  }, [editing?.name]);
+    setDocumentName(activeFile?.name ?? "");
+  }, [activeFile?.name]);
 
   return (
     <div className="flex items-center gap-2 lg:border-l lg:pl-4">

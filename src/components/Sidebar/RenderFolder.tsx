@@ -15,7 +15,7 @@ type RenderFolderProps = {
 };
 
 const RenderFolder = ({ folder }: RenderFolderProps) => {
-  const [foldername, setFoldername] = useState(folder.name);
+  const [folderName, setFolderName] = useState(folder.name);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const activeFile = useActiveFile();
@@ -28,7 +28,7 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
   };
 
   const handleFolderRename = async () => {
-    if (foldername !== undefined && validateName(foldername)) await saveFolder({ ...folder, name: foldername });
+    if (folderName !== undefined && validateName(folderName)) await saveFolder({ ...folder, name: folderName });
     else return;
 
     await resetSidebarRenameItem();
@@ -51,8 +51,8 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
             {folder.id === sidebarEditing ? (
               <input
                 type="text"
-                className={clsx("bg-white text-black pl-1 w-[14ch]", !validateName(foldername) && " outline-red-400 ")}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFoldername(e.target.value)}
+                className={clsx("bg-white text-black pl-1 w-[14ch]", !validateName(folderName) && " outline-red-400 ")}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFolderName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleFolderRename()}
                 onBlur={handleFolderRename}
                 autoFocus
