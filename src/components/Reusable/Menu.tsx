@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { createDocument, deleteDocument } from "../actions/files";
-import { createFolder, deleteFolder } from "../actions/folders";
-import { resetSidebarRenameItem, setSidebarRenameItem } from "../actions/state";
+import { createDocument, deleteDocument } from "../../actions/files";
+import { createFolder, deleteFolder } from "../../actions/folders";
+import { resetSidebarRenameItem, setSidebarRenameItem } from "../../actions/state";
 import {
   ContextMenu,
   ContextMenuContent,

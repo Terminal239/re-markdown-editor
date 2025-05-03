@@ -1,5 +1,5 @@
+import useActiveFile from "../../hooks/use-active-file";
 import ModalWrapper from "../Wrapper/ModalWrapper";
-import useActiveFile from "../hooks/use-active-file";
 
 type Props = {
   toggleModal: () => void;

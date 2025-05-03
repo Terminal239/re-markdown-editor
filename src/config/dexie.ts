@@ -1,5 +1,5 @@
 import Dexie, { EntityTable, Table } from "dexie";
-import { getDocumentInstance } from "../components/actions/files";
+import { getDocumentInstance } from "../actions/files";
 
 interface Document {
   id: number;

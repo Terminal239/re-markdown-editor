@@ -3,7 +3,7 @@ import { ScrollSyncPane } from "react-scroll-sync";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
 
 import clsx from "clsx";
-import useActiveFile from "../hooks/use-active-file";
+import useActiveFile from "../../hooks/use-active-file";
 import PaneHeader from "../Reusable/PaneHeader";
 import MarkdownWrapper from "./MarkdownWrapper";
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { saveDocument } from "../../actions/files";
 import { Document } from "../../config/dexie";
-import { saveDocument } from "../actions/files";
 import { IconDocument } from "../Icons";
 
 type Props = {

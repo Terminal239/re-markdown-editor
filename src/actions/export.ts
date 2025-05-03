@@ -1,6 +1,6 @@
 import saveAs from "file-saver";
 import JSZip from "jszip";
-import { isFolder } from "../../lib/guard";
+import { isFolder } from "../lib/guard";
 import { getFolderTree } from "./folders";
 
 const exportHelper = async (parentId: number, zip: JSZip) => {

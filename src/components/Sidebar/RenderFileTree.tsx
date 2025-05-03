@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { memo } from "react";
 import { FileTree } from "../../config/dexie";
+import useFiles from "../../hooks/use-files";
 import { isDocument, isFolder } from "../../lib/guard";
-import useFiles from "../hooks/use-files";
 import Menu from "../Reusable/Menu";
 import RenderDocument from "./RenderDocument";
 import RenderFolder from "./RenderFolder";

@@ -1,4 +1,4 @@
-import { db } from "../../config/dexie";
+import { db } from "../config/dexie";
 import { deleteDocument } from "./files";
 import { deleteFolder } from "./folders";
 

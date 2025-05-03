@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { memo, useState } from "react";
+import { saveDocument, selectDocument } from "../../actions/files";
+import { resetSidebarRenameItem } from "../../actions/state";
 import { Document } from "../../config/dexie";
+import useActiveFile from "../../hooks/use-active-file";
+import useSidebarEditing from "../../hooks/use-sidebar-editing";
 import { validateName } from "../../lib/utils";
-import { saveDocument, selectDocument } from "../actions/files";
-import { resetSidebarRenameItem } from "../actions/state";
-import useActiveFile from "../hooks/use-active-file";
-import useSidebarEditing from "../hooks/use-sidebar-editing";
 import { IconDocument, IconFilePen } from "../Icons";
 
 type RenderDocumentProps = {

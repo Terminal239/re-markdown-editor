@@ -1,7 +1,7 @@
 import { useUIDispatch, useUIState } from "../../context/UIContext";
+import useActiveFile from "../../hooks/use-active-file";
 import { IconMenu, IconXMark } from "../Icons";
 import Button from "../Reusable/Button";
-import useActiveFile from "../hooks/use-active-file";
 import DocumentInfo from "./DocumentInfo";
 import HeaderActions from "./HeaderActions";
 

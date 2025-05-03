@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "../../config/dexie";
+import { db } from "../config/dexie";
 
 const useSidebarDeleting = () => {
   const id = useLiveQuery(async () => db.appState.get("sidebarDeleteId"))!;

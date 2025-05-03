@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import toast from "react-hot-toast";
-import { exportDocuments } from "../actions/export";
-import { createDocument } from "../actions/files";
-import { createFolder, selectFolder } from "../actions/folders";
-import { deleteSidebarItem, resetSidebarRenameItem } from "../actions/state";
-import useSidebarDeleting from "../hooks/use-sidebar-deleting";
+import { exportDocuments } from "../../actions/export";
+import { createDocument } from "../../actions/files";
+import { createFolder, selectFolder } from "../../actions/folders";
+import { deleteSidebarItem, resetSidebarRenameItem } from "../../actions/state";
+import useSidebarDeleting from "../../hooks/use-sidebar-deleting";
 import { IconDownload, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";

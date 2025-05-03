@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { memo, useEffect, useState } from "react";
+import { saveFolder, selectFolder } from "../../actions/folders";
+import { resetSidebarRenameItem } from "../../actions/state";
 import { Folder } from "../../config/dexie";
+import useActiveFile from "../../hooks/use-active-file";
+import useActiveFolder from "../../hooks/use-active-folder";
+import useSidebarEditing from "../../hooks/use-sidebar-editing";
 import { validateName } from "../../lib/utils";
-import { saveFolder, selectFolder } from "../actions/folders";
-import { resetSidebarRenameItem } from "../actions/state";
-import useActiveFile from "../hooks/use-active-file";
-import useActiveFolder from "../hooks/use-active-folder";
-import useSidebarEditing from "../hooks/use-sidebar-editing";
 import { IconChevronRight, IconFolder, IconFolderOpen } from "../Icons";
 import RenderFileTree from "./RenderFileTree";
 

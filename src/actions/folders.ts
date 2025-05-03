@@ -1,4 +1,4 @@
-import { db, Folder } from "../../config/dexie";
+import { Folder, db } from "../config/dexie";
 
 const getFolderInstance = (parentId?: number): Folder => ({
   id: +(Math.random() * 10000000).toFixed(0),

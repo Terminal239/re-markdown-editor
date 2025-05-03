@@ -1,9 +1,9 @@
 import "@fontsource-variable/source-code-pro";
 import { ScrollSyncPane } from "react-scroll-sync";
+import { saveDocument } from "../../actions/files";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
+import useActiveFile from "../../hooks/use-active-file";
 import PaneHeader from "../Reusable/PaneHeader";
-import { saveDocument } from "../actions/files";
-import useActiveFile from "../hooks/use-active-file";
 
 const Editor = () => {
   const activeFile = useActiveFile();

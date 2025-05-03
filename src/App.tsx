@@ -2,12 +2,12 @@ import { useReducer } from "react";
 import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
-import useActiveFile from "./components/hooks/use-active-file";
 import Preview from "./components/Preview";
 import EmptyState from "./components/Reusable/EmptyState";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Wrapper/Main";
 import { UIContext, UIDispatchContext } from "./context/UIContext";
+import useActiveFile from "./hooks/use-active-file";
 import { loadFromLocalStorage } from "./lib/localStorage";
 import { initialUIState, uiReducer } from "./reducer/ui";
 

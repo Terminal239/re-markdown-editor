@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { db, Document } from "../../config/dexie";
+import { db, Document } from "../config/dexie";
 
 const useActiveFile = (): Document | null => {
   const file = useLiveQuery(async () => {

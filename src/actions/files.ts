@@ -1,4 +1,4 @@
-import { db, Document } from "../../config/dexie";
+import { db, Document } from "../config/dexie";
 
 const getDocumentInstance = (parentId?: number): Document => ({
   id: +(Math.random() * 10000000).toFixed(0),
