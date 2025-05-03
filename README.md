@@ -1,7 +1,6 @@
 # Markdown Editor
 
-A simple and efficient markdown editor built with [Technology Stack - e.g.,
-React, TypeScript, Vite].
+A simple and efficient markdown editor built with React.
 
 ## Installation
 
@@ -77,9 +76,6 @@ markdown-editor/
 ├── tsconfig.node.json   # TypeScript Node configuration
 └── vite.config.ts       # Vite configuration
 ```
-
-_(Note: This structure is based on common Vite/React project layouts and the
-provided `src` directory information. Adjust as necessary.)_
 
 ## Contribution Guidelines
 
