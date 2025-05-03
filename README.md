@@ -1,7 +1,6 @@
 # Markdown Editor
 
-A simple and efficient markdown editor built with [Technology Stack - e.g.,
-React, TypeScript, Vite].
+A simple and efficient markdown editor built with React.
 
 ## Installation
 
@@ -61,8 +60,8 @@ markdown-editor/
 │   ├── context/         # React context providers
 │   ├── hooks/           # Custom React hooks
 │   ├── lib/             # Utility functions and libraries
-│   ├── reducer/         # State management logic (if using reducers)
-│   ├── actions/         # Action creators (if applicable)
+│   ├── reducer/         # State management logic 
+│   ├── actions/         # Action creators
 │   ├── styles/          # Global styles and themes
 │   ├── types/           # TypeScript type definitions
 │   ├── App.tsx          # Main application component
@@ -72,14 +71,11 @@ markdown-editor/
 ├── index.html           # HTML entry point
 ├── LICENSE              # Project license file
 ├── package.json         # Project metadata and dependencies
-├── README.md            # Project documentation (this file)
+├── README.md            # Project documentation 
 ├── tsconfig.json        # TypeScript configuration
 ├── tsconfig.node.json   # TypeScript Node configuration
 └── vite.config.ts       # Vite configuration
 ```
-
-_(Note: This structure is based on common Vite/React project layouts and the
-provided `src` directory information. Adjust as necessary.)_
 
 ## Contribution Guidelines
 
@@ -97,5 +93,5 @@ tests where appropriate.
 
 ## License
 
-This project is licensed under the [Your License Name - e.g., MIT] License. See
+This project is licensed under the MIT License. See
 the `LICENSE` file for details.
