@@ -1,22 +1,21 @@
-interface Document {
+interface AppStateEntry {
+  key: string; // Primary key
+  value: any;
+}
+
+interface Node {
   id: number;
   name: string;
-  content: string;
+  content?: string;
   createdAt: Date;
   updatedAt: Date;
-  type: "DOCUMENT";
+  type: "FILE" | "FOLDER";
   parentId?: number;
 }
 
-interface Folder {
-  id: number;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-  type: "FOLDER";
-  parentId?: number;
+interface SidebarAction {
+  node: Node;
+  action: "RENAME" | "DELETE" | undefined;
 }
 
-type FileTree = Document | Folder;
-
-export { Document, FileTree, Folder };
+export { AppStateEntry, Node, SidebarAction };

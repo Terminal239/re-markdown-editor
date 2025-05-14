@@ -60,7 +60,7 @@ markdown-editor/
 │   ├── context/         # React context providers
 │   ├── hooks/           # Custom React hooks
 │   ├── lib/             # Utility functions and libraries
-│   ├── reducer/         # State management logic 
+│   ├── reducer/         # State management logic
 │   ├── actions/         # Action creators
 │   ├── styles/          # Global styles and themes
 │   ├── types/           # TypeScript type definitions
@@ -71,7 +71,7 @@ markdown-editor/
 ├── index.html           # HTML entry point
 ├── LICENSE              # Project license file
 ├── package.json         # Project metadata and dependencies
-├── README.md            # Project documentation 
+├── README.md            # Project documentation
 ├── tsconfig.json        # TypeScript configuration
 ├── tsconfig.node.json   # TypeScript Node configuration
 └── vite.config.ts       # Vite configuration
@@ -93,5 +93,5 @@ tests where appropriate.
 
 ## License
 
-This project is licensed under the MIT License. See
-the `LICENSE` file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for
+details.

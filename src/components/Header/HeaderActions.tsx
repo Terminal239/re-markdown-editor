@@ -1,22 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { saveDocument } from "../../actions/files";
-import { Document } from "../../types/types";
+import { updateNode } from "../../actions/nodes";
+import { Node } from "../../types/types";
 import { IconFileArrowDown, IconFloppyDisk, IconRotate } from "../Icons";
 import Button from "../Reusable/Button";
 
 type Props = {
-  activeFile: Document;
+  editing: Node;
 };
 
-const HeaderActions = ({ activeFile }: Props) => {
+const HeaderActions = ({ editing }: Props) => {
   const [isSaving, setIsSaving] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
   const handleSaveDocument = useCallback(async () => {
     setIsSaving(true);
-    if (!activeFile) return;
-    await saveDocument(activeFile);
+    if (!editing) return;
+
+    await updateNode(editing);
 
     toast.success("Document saved!", {
       duration: 4000,
@@ -27,15 +28,15 @@ const HeaderActions = ({ activeFile }: Props) => {
     timeoutRef.current = window.setTimeout(handleSaveDocument, 30000);
 
     setIsSaving(false);
-  }, [activeFile]);
+  }, [editing]);
 
   const handleDocumentExport = () => {
-    const file = new Blob([activeFile?.content ?? ""], { type: "text/markdown" });
+    const file = new Blob([editing?.content ?? ""], { type: "text/markdown" });
     const a = document.createElement("a");
     const url = URL.createObjectURL(file);
 
     a.href = url;
-    a.download = `${activeFile?.name ?? ""}.md`;
+    a.download = `${editing?.name ?? ""}.md`;
     a.click();
   };
 

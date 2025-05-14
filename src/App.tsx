@@ -9,7 +9,7 @@ import Overlay from "./components/Reusable/Overlay";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Wrapper/Main";
 import { UIContext, UIDispatchContext } from "./context/UIContext";
-import useActiveFile from "./hooks/use-active-file";
+import useEditing from "./hooks/use-editing";
 import { loadFromLocalStorage } from "./lib/localStorage";
 import { initialUIState, uiReducer } from "./reducer/ui";
 
@@ -18,7 +18,7 @@ const App = () => {
     uiReducer,
     loadFromLocalStorage("uiState") ?? initialUIState,
   );
-  const activeFile = useActiveFile();
+  const editing = useEditing();
 
   return (
     <UIContext value={uiState}>
@@ -28,7 +28,7 @@ const App = () => {
         <Container>
           <Header />
           <Main>
-            {activeFile !== null ? (
+            {editing !== null ? (
               <>
                 <Editor />
                 <Preview />

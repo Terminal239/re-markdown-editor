@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useUIDispatch, useUIState } from "../../context/UIContext";
-import useActiveFile from "../../hooks/use-active-file";
+import useEditing from "../../hooks/use-editing";
 import { toggleSidebar } from "../../reducer/ui";
 import { IconMenu, IconXMark } from "../Icons";
 import Button from "../Reusable/Button";
@@ -8,7 +8,7 @@ import DocumentInfo from "./DocumentInfo";
 import HeaderActions from "./HeaderActions";
 
 const Header = () => {
-  const activeFile = useActiveFile();
+  const editing = useEditing();
 
   const { isSidebarOpen } = useUIState();
   const uiDispatch = useUIDispatch();
@@ -26,8 +26,8 @@ const Header = () => {
           )}
         />
         <span className="hidden font-bold tracking-[8px] uppercase lg:inline">Markdown</span>
-        {activeFile !== null && <DocumentInfo activeFile={activeFile} />}
-        {activeFile !== null && <HeaderActions activeFile={activeFile} />}
+        {editing !== null && <DocumentInfo editing={editing} />}
+        {editing !== null && <HeaderActions editing={editing} />}
       </header>
     </>
   );

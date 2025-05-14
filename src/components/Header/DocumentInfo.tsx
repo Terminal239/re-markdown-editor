@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { saveDocument } from "../../actions/files";
-import { Document } from "../../types/types";
+import { updateNode } from "../../actions/nodes";
+import { Node } from "../../types/types";
 import { IconDocument } from "../Icons";
 
 type Props = {
-  activeFile: Document;
+  editing: Node;
 };
 
-const DocumentInfo = ({ activeFile }: Props) => {
-  const [documentName, setDocumentName] = useState(activeFile?.name ?? "");
+const DocumentInfo = ({ editing }: Props) => {
+  const [documentName, setDocumentName] = useState(editing?.name ?? "");
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditing = () => {
@@ -22,11 +22,11 @@ const DocumentInfo = ({ activeFile }: Props) => {
       toast.error("Document name cannot be blank", {
         duration: 5000,
       });
-      setDocumentName(activeFile?.name ?? "");
+      setDocumentName(editing?.name ?? "");
       return;
     }
 
-    await saveDocument({ ...activeFile, name: documentName });
+    await updateNode({ ...editing, name: documentName });
 
     toast.success(
       <p>
@@ -39,8 +39,8 @@ const DocumentInfo = ({ activeFile }: Props) => {
   };
 
   useEffect(() => {
-    setDocumentName(activeFile?.name ?? "");
-  }, [activeFile?.name]);
+    setDocumentName(editing?.name ?? "");
+  }, [editing?.name]);
 
   return (
     <div className="ml-8 flex items-center gap-2 md:ml-0 lg:border-l lg:pl-4">

@@ -15,6 +15,7 @@ interface Props {
   className?: string;
   rounded?: boolean;
   tooltipMessage?: string;
+  disabled?: boolean;
 }
 const Button = ({
   onClick,
@@ -24,12 +25,14 @@ const Button = ({
   className = "",
   rounded = false,
   tooltipMessage = "",
+  disabled = false,
 }: Props) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <button
+            disabled={disabled}
             onClick={onClick}
             className={clsx(
               "flex items-center justify-center gap-1 font-bold text-white hover:opacity-90",

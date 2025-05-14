@@ -1,10 +1,10 @@
 import saveAs from "file-saver";
 import JSZip from "jszip";
 import { isFolder } from "../lib/guard";
-import { getFolderTree } from "./folders";
+import { getNodes } from "./nodes";
 
 const exportHelper = async (parentId: number, zip: JSZip) => {
-  const files = await getFolderTree(parentId);
+  const files = await getNodes(parentId);
 
   for (const file of files) {
     if (isFolder(file)) {
@@ -12,7 +12,7 @@ const exportHelper = async (parentId: number, zip: JSZip) => {
       continue;
     }
 
-    zip.file(`${file.name}-${file.id}.md`, file.content, {
+    zip.file(`${file.name}-${file.id}.md`, file.content!, {
       date: new Date(file.updatedAt),
     });
   }

@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
-import { createDocument, deleteDocument } from "../../actions/files";
-import { createFolder, deleteFolder } from "../../actions/folders";
-import { setSidebarRenameId } from "../../actions/state";
+
+import { createNode } from "../../actions/nodes";
+import { setSidebarAction } from "../../actions/state";
+import { Node } from "../../types/types";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -11,71 +12,64 @@ import {
 } from "../ui/context-menu";
 
 type Props = {
-  id: number;
+  node: Node;
   children: ReactNode;
-  type: "DOCUMENT" | "FOLDER";
 };
 
 type ContextProps = {
-  id: number;
-  type: Props["type"];
+  node: Node;
 };
 
-const handleRename = async (id: number) => {
-  await setSidebarRenameId(id);
+const handleRename = async (node: Node) => {
+  await setSidebarAction(node, "RENAME");
 };
 
-const handleDelete = async (id: number, type: Props["type"]) => {
-  if (type === "FOLDER") await deleteFolder(id);
-  if (type === "DOCUMENT") await deleteDocument(id);
+const handleDelete = async (node: Node) => {
+  await setSidebarAction(node, "DELETE");
 };
 
-const handleNewFile = async (id: number) => {
-  await createDocument(id);
+const handleNewNode = async (node: Node, type: Node["type"]) => {
+  await createNode(type, node.id);
 };
 
-const handleNewFolder = async (id: number) => {
-  await createFolder(id);
-};
-
-const FolderContext = ({ id, type }: ContextProps) => {
+const FolderContext = ({ node }: ContextProps) => {
   return (
     <>
-      <ContextMenuItem onClick={() => handleNewFile(id)}>New File</ContextMenuItem>
-      <ContextMenuItem onClick={() => handleNewFolder(id)}>New Folder</ContextMenuItem>
+      <ContextMenuItem onClick={() => handleNewNode(node, "FILE")}>New File</ContextMenuItem>
+      <ContextMenuItem onClick={() => handleNewNode(node, "FOLDER")}>New Folder</ContextMenuItem>
       <ContextMenuSeparator />
-      <ContextMenuItem onClick={() => handleRename(id)}>Rename</ContextMenuItem>
-      <ContextMenuItem onClick={() => handleDelete(id, type)}>Delete</ContextMenuItem>
+      <ContextMenuItem onClick={() => handleRename(node)}>Rename</ContextMenuItem>
+      <ContextMenuItem onClick={() => handleDelete(node)}>Delete</ContextMenuItem>
     </>
   );
 };
 
-const DocumentContext = ({ id, type }: ContextProps) => {
+const FileContext = ({ node }: ContextProps) => {
   return (
     <>
-      <ContextMenuItem onClick={() => handleRename(id)}>Rename</ContextMenuItem>
-      <ContextMenuItem onClick={() => handleDelete(id, type)}>Delete</ContextMenuItem>
+      <ContextMenuItem onClick={() => handleRename(node)}>Rename</ContextMenuItem>
+      <ContextMenuItem onClick={() => handleDelete(node)}>Delete</ContextMenuItem>
     </>
   );
 };
 
-const RenderContext = ({ id, type }: { id: number; type: Props["type"] }) => {
-  switch (type) {
-    case "DOCUMENT":
-      return <DocumentContext id={id} type={type} />;
+const RenderContext = ({ node }: ContextProps) => {
+  switch (node.type) {
+    case "FILE":
+      return <FileContext node={node} />;
     case "FOLDER":
-      return <FolderContext id={id} type={type} />;
+      return <FolderContext node={node} />;
     default:
       return null;
   }
 };
 
-const Menu = ({ children, type, id }: Props) => {
+const Menu = ({ node, children }: Props) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent>
-        <RenderContext id={id} type={type} />
+        <RenderContext node={node} />
       </ContextMenuContent>
     </ContextMenu>
   );

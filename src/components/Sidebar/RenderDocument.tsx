@@ -1,28 +1,39 @@
 import { memo } from "react";
-import { saveDocument, selectDocument } from "../../actions/files";
-import { resetSidebarRenameId } from "../../actions/state";
-import useActiveFile from "../../hooks/use-active-file";
-import useSidebarEditing from "../../hooks/use-sidebar-editing";
+
+import { updateNode } from "../../actions/nodes";
+import {
+  resetSelectedNode,
+  resetSidebarAction,
+  setEditing,
+  setSelectedNode,
+} from "../../actions/state";
+import useEditing from "../../hooks/use-editing";
+import useSidebarAction from "../../hooks/use-sidebar-action-node";
 import { validateName } from "../../lib/utils";
-import { Document } from "../../types/types";
+import { Node } from "../../types/types";
 import { IconDocument, IconFilePen } from "../Icons";
 import EditableNameInput from "../Reusable/EditableNameInput";
 import FileTreeEntryLayout from "../Reusable/FileTreeEntryLayout";
 
 type RenderDocumentProps = {
-  document: Document;
+  document: Node;
 };
 
 const RenderDocument = ({ document }: RenderDocumentProps) => {
-  const activeFile = useActiveFile();
-  const sidebarEditingId = useSidebarEditing();
-  const isEditing = document.id === sidebarEditingId;
-  const isActive = activeFile?.id === document.id;
+  const editing = useEditing();
+  const selectedNode = useSidebarAction();
 
-  const handleItemClick = async () => await selectDocument(document.id);
+  const isActive = document.id === editing?.id;
+  const isEditing = document.id === selectedNode?.node.id && selectedNode?.action === "RENAME";
+
+  const handleItemClick = async () => {
+    await setSelectedNode(document);
+    await setEditing(document);
+  };
 
   const handleDocumentSave = async (newName: string) => {
-    await saveDocument({ ...document, name: newName });
+    await updateNode({ ...document, name: newName });
+    await resetSidebarAction();
   };
 
   return (
@@ -38,7 +49,7 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
         isEditing={isEditing}
         initialValue={document.name}
         onSave={handleDocumentSave}
-        onCancel={resetSidebarRenameId}
+        onCancel={resetSelectedNode}
         validateFn={validateName}
         displaySuffix=".md"
         textClassName="file-tree-entry-text"

@@ -1,11 +1,11 @@
-import { Document, FileTree, Folder } from "../types/types";
+import { Node } from "../types/types";
 
-const isDocument = (node: FileTree): node is Document => {
-  return node.type === "DOCUMENT";
+const isFile = (node: Node) => {
+  return node.type === "FILE";
 };
 
-const isFolder = (node: FileTree): node is Folder => {
+const isFolder = (node: Node) => {
   return node.type === "FOLDER";
 };
 
-export { isDocument, isFolder };
+export { isFile, isFolder };

@@ -1,12 +1,12 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { getFolderTree } from "../actions/folders";
+import { getNodes } from "../actions/nodes";
 
 type Props = {
   parentId?: number;
 };
 
 const useFiles = ({ parentId }: Props) => {
-  const fileTree = useLiveQuery(() => getFolderTree(parentId)) ?? [];
+  const fileTree = useLiveQuery(() => getNodes(parentId)) ?? [];
   return fileTree;
 };
 

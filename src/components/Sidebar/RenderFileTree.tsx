@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { memo } from "react";
 import useFiles from "../../hooks/use-files";
-import { isDocument, isFolder } from "../../lib/guard";
-import { FileTree } from "../../types/types";
+import { isFile, isFolder } from "../../lib/guard";
+import { Node } from "../../types/types";
 import Menu from "../Reusable/Menu";
 import RenderDocument from "./RenderDocument";
 import RenderFolder from "./RenderFolder";
@@ -11,7 +11,7 @@ type RenderFileTreeProps = {
   parentId?: number;
 };
 
-const arrangeFileTree = (a: FileTree, b: FileTree): number => {
+const arrangeFileTree = (a: Node, b: Node): number => {
   if (a.type === b.type) return a.name.localeCompare(b.name);
   return a.type === "FOLDER" ? -1 : 1;
 };
@@ -26,17 +26,17 @@ const RenderFileTree = ({ parentId }: RenderFileTreeProps) => {
         fileTree.length !== 0 && parentId !== -1 && "border-l border-gray-500/50 md:ml-3",
       )}
     >
-      {fileTree.sort(arrangeFileTree).map((treeNode) => {
-        if (isDocument(treeNode))
+      {fileTree.sort(arrangeFileTree).map((node) => {
+        if (isFile(node))
           return (
-            <Menu id={treeNode.id} key={treeNode.id} type={treeNode.type}>
-              <RenderDocument document={treeNode} />
+            <Menu key={node.id} node={node}>
+              <RenderDocument document={node} />
             </Menu>
           );
-        if (isFolder(treeNode))
+        if (isFolder(node))
           return (
-            <Menu id={treeNode.id} key={treeNode.id} type={treeNode.type}>
-              <RenderFolder key={treeNode.id} folder={treeNode} />
+            <Menu key={node.id} node={node}>
+              <RenderFolder key={node.id} folder={node} />
             </Menu>
           );
         else return <></>;

@@ -1,72 +1,66 @@
 import { db } from "../config/dexie";
-import { deleteDocument } from "./files";
-import { deleteFolder } from "./folders";
+import { Node, SidebarAction } from "../types/types";
 
-const setSidebarRenameId = async (id: number) => {
-  await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: id });
-};
-
-const resetSidebarRenameId = async () => {
-  await db.appState.update("sidebarRenameId", { key: "sidebarRenameId", value: -1 });
-};
-
-const setSidebarDeleteId = async (type: "DOCUMENT" | "FOLDER" | "NULL", id: number) => {
-  await db.appState.update("sidebarDeleteId", {
-    key: "sidebarDeleteId",
-    value: {
-      type,
-      id,
-    },
+const setEditing = async (node: Node) => {
+  await db.transaction("rw", db.appState, async () => {
+    await db.appState.update("editing", { key: "editing", value: node });
+    await db.appState.update("selectedNode", {
+      key: "selectedNode",
+      value: {
+        ...node,
+        isRenaming: false,
+      },
+    });
   });
 };
 
-const resetSidebarDeleteId = async () => {
-  await db.appState.update("sidebarDeleteId", {
-    key: "sidebarDeleteId",
-    value: {
-      type: "NULL",
-      id: -1,
-    },
+const resetEditing = async () => {
+  await db.appState.update("editing", { key: "editing", value: null });
+};
+
+const setSelectedNode = async (node: Node) => {
+  await db.transaction("rw", db.appState, async () => {
+    await db.appState.update("selectedNode", {
+      key: "selectedNode",
+      value: {
+        ...node,
+        isRenaming: false,
+      },
+    });
   });
 };
 
-const setActiveFolderId = async (id: number) => {
-  await db.appState.update("activeFolderId", { key: "activeFolderId", value: id });
+const resetSelectedNode = async () => {
+  await db.appState.update("selectedNode", {
+    key: "selectedNode",
+    value: null,
+  });
 };
 
-const resetActiveFolderId = async () => {
-  await db.appState.update("activeFolderId", { key: "activeFolderId", value: -1 });
+const setSidebarAction = async (node: Node, action: SidebarAction["action"]) => {
+  await db.transaction("rw", db.appState, async () => {
+    await db.appState.update("sidebarAction", {
+      key: "sidebarAction",
+      value: {
+        node,
+        action,
+      },
+    });
+  });
 };
 
-const setActiveFileId = async (id: number) => {
-  await db.appState.update("activeFileId", { key: "activeFileId", value: id });
-};
-
-const deleteSidebarItem = async (itemToDelete: {
-  type: "FOLDER" | "DOCUMENT" | "NULL";
-  id: number;
-}) => {
-  console.log(itemToDelete);
-  switch (itemToDelete.type) {
-    case "DOCUMENT":
-      deleteDocument(itemToDelete.id);
-      break;
-    case "FOLDER":
-      deleteFolder(itemToDelete.id);
-      break;
-    case "NULL":
-    default:
-      return;
-  }
+const resetSidebarAction = async () => {
+  await db.appState.update("sidebarAction", {
+    key: "sidebarAction",
+    value: null,
+  });
 };
 
 export {
-  deleteSidebarItem,
-  resetActiveFolderId,
-  resetSidebarDeleteId,
-  resetSidebarRenameId,
-  setActiveFileId,
-  setActiveFolderId,
-  setSidebarDeleteId,
-  setSidebarRenameId,
+  resetEditing,
+  resetSelectedNode,
+  resetSidebarAction,
+  setEditing,
+  setSelectedNode,
+  setSidebarAction,
 };

@@ -1,47 +1,44 @@
 import clsx from "clsx";
 import { memo, useEffect, useState } from "react";
-import { saveFolder, selectFolder } from "../../actions/folders";
-import { resetSidebarRenameId } from "../../actions/state";
-import useActiveFile from "../../hooks/use-active-file";
-import useActiveFolder from "../../hooks/use-active-folder";
-import useSidebarEditing from "../../hooks/use-sidebar-editing";
+import { updateNode } from "../../actions/nodes";
+import { resetSelectedNode, resetSidebarAction, setSelectedNode } from "../../actions/state";
+import useSelectedNode from "../../hooks/use-selected-node";
+import useSidebarAction from "../../hooks/use-sidebar-action-node";
 import { validateName } from "../../lib/utils";
-import { Folder } from "../../types/types";
+import { Node } from "../../types/types";
 import { IconChevronRight, IconFolder, IconFolderOpen } from "../Icons";
 import EditableNameInput from "../Reusable/EditableNameInput";
 import FileTreeEntryLayout from "../Reusable/FileTreeEntryLayout";
 import RenderFileTree from "./RenderFileTree";
 
 type RenderFolderProps = {
-  folder: Folder;
+  folder: Node;
 };
 
 const RenderFolder = ({ folder }: RenderFolderProps) => {
+  const sidebarAction = useSidebarAction();
+  const selectedNode = useSelectedNode();
   const [isExpanded, setIsExpanded] = useState(false);
-  const activeFile = useActiveFile();
-  const activeFolder = useActiveFolder();
-  const sidebarEditingId = useSidebarEditing();
-  const isEditing = folder.id === sidebarEditingId;
-  const isActive = activeFolder?.id === folder.id;
+
+  const isActive = folder.id === sidebarAction?.node.id;
+  const isEditing = folder.id === sidebarAction?.node.id && sidebarAction?.action === "RENAME";
 
   const toggleExpansion = async () => {
+    console.log(isEditing);
     if (!isEditing) {
-      await selectFolder(folder.id);
+      await setSelectedNode(folder);
       setIsExpanded((prev) => !prev);
     }
   };
 
-  const handleFolderSave = async (newName: string) => {
-    await saveFolder({ ...folder, name: newName });
+  const handleRename = async (name: string) => {
+    await updateNode({ ...folder, name });
+    await resetSidebarAction();
   };
 
   useEffect(() => {
-    if (activeFile?.parentId === folder.id) setIsExpanded(true);
-  }, [activeFile, folder.id]);
-
-  useEffect(() => {
-    if (activeFolder?.parentId === folder.id) setIsExpanded(true);
-  }, [activeFolder, folder.id]);
+    if (selectedNode?.parentId === folder.id) setIsExpanded(true);
+  }, [selectedNode, folder.id]);
 
   return (
     <>
@@ -57,8 +54,8 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
             key={folder.id}
             isEditing={isEditing}
             initialValue={folder.name}
-            onSave={handleFolderSave}
-            onCancel={resetSidebarRenameId}
+            onSave={handleRename}
+            onCancel={resetSelectedNode}
             validateFn={validateName}
             textClassName="file-tree-entry-text"
           />
