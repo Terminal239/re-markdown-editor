@@ -30,7 +30,7 @@ const Button = ({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger asChild disabled={disabled} className="disabled:pointer-event-auto">
           <button
             disabled={disabled}
             onClick={onClick}
@@ -50,8 +50,8 @@ const Button = ({
         </TooltipTrigger>
         {tooltipMessage !== "" && (
           <TooltipContent>
-            <p className="flex h-[24px] items-center rounded bg-black px-2 text-[12px] text-white shadow md:text-[14px]">
-              {tooltipMessage}
+            <p className="flex h-[24px] items-center rounded bg-black px-2 text-[12px] text-white capitalize shadow md:text-[14px]">
+              {tooltipMessage.toLowerCase()}
             </p>
           </TooltipContent>
         )}

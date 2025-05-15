@@ -10,7 +10,7 @@ interface Node {
   createdAt: Date;
   updatedAt: Date;
   type: "FILE" | "FOLDER";
-  parentId?: number;
+  parentId: number;
 }
 
 interface SidebarAction {

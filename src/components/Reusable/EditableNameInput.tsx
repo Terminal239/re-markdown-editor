@@ -1,12 +1,14 @@
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { updateNode } from "../../actions/nodes";
+import { resetSidebarAction } from "../../actions/state";
+import { validateName } from "../../lib/utils";
+import { Node } from "../../types/types";
 
 type EditableNameInputProps = {
+  node: Node;
   isEditing: boolean;
-  initialValue: string;
-  onSave: (newName: string) => Promise<void> | void;
   onCancel: () => Promise<void> | void;
-  validateFn: (name: string) => boolean;
   displaySuffix?: string;
   inputClassName?: string;
   textClassName?: string;
@@ -14,25 +16,34 @@ type EditableNameInputProps = {
 
 const EditableNameInput = React.memo(
   ({
+    node,
     isEditing,
-    initialValue,
-    onSave,
     onCancel,
-    validateFn,
     displaySuffix = "",
     inputClassName = "",
     textClassName = "",
   }: EditableNameInputProps) => {
-    const [currentValue, setCurrentValue] = useState(initialValue);
-    const isValid = validateFn(currentValue);
+    const [currentValue, setCurrentValue] = useState(node.name);
+    const [isValid, setIsValid] = useState(true);
 
-    useEffect(() => {
-      setCurrentValue(initialValue);
-    }, [initialValue]);
+    const validate = async (name: string) => {
+      const isValid = await validateName({ ...node, name });
+      setIsValid(isValid);
+    };
+
+    const handleChange = async (name: string) => {
+      setCurrentValue(name);
+      await validate(name);
+    };
+
+    const handleRename = async (name: string) => {
+      await updateNode({ ...node, name });
+      await resetSidebarAction();
+    };
 
     const handleSave = async () => {
-      if (currentValue !== undefined && isValid) {
-        await onSave(currentValue);
+      if (currentValue !== undefined && (await isValid)) {
+        await handleRename(currentValue);
       }
 
       await onCancel();
@@ -42,7 +53,7 @@ const EditableNameInput = React.memo(
       if (e.key === "Enter") {
         handleSave();
       } else if (e.key === "Escape") {
-        setCurrentValue(initialValue);
+        setCurrentValue(node.name);
         onCancel();
       }
     };
@@ -52,7 +63,9 @@ const EditableNameInput = React.memo(
         <input
           type="text"
           value={currentValue}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentValue(e.target.value)}
+          onChange={async (e: React.ChangeEvent<HTMLInputElement>) =>
+            await handleChange(e.target.value)
+          }
           onKeyDown={handleKeyDown}
           onBlur={handleSave}
           className={clsx(
@@ -68,7 +81,7 @@ const EditableNameInput = React.memo(
 
     return (
       <span className={clsx("file-tree-entry-text", textClassName)}>
-        {initialValue}
+        {node.name}
         {displaySuffix}
       </span>
     );

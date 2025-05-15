@@ -1,10 +1,8 @@
 import clsx from "clsx";
 import { memo, useEffect, useState } from "react";
-import { updateNode } from "../../actions/nodes";
-import { resetSelectedNode, resetSidebarAction, setSelectedNode } from "../../actions/state";
+import { resetSelectedNode, setSelectedNode } from "../../actions/state";
 import useSelectedNode from "../../hooks/use-selected-node";
 import useSidebarAction from "../../hooks/use-sidebar-action-node";
-import { validateName } from "../../lib/utils";
 import { Node } from "../../types/types";
 import { IconChevronRight, IconFolder, IconFolderOpen } from "../Icons";
 import EditableNameInput from "../Reusable/EditableNameInput";
@@ -31,11 +29,6 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
     }
   };
 
-  const handleRename = async (name: string) => {
-    await updateNode({ ...folder, name });
-    await resetSidebarAction();
-  };
-
   useEffect(() => {
     if (selectedNode?.parentId === folder.id) setIsExpanded(true);
   }, [selectedNode, folder.id]);
@@ -52,11 +45,9 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
         <div className="flex w-full items-center">
           <EditableNameInput
             key={folder.id}
+            node={folder}
             isEditing={isEditing}
-            initialValue={folder.name}
-            onSave={handleRename}
             onCancel={resetSelectedNode}
-            validateFn={validateName}
             textClassName="file-tree-entry-text"
           />
           <IconChevronRight

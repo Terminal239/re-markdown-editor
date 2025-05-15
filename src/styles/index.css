@@ -191,6 +191,6 @@ button {
   }
 
   .sidebar-action {
-    @apply flex-1 bg-gray-700;
+    @apply flex-1 bg-gray-700 disabled:bg-gray-500 disabled:hover:!opacity-100;
   }
 }

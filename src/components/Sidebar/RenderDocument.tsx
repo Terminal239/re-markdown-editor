@@ -1,15 +1,8 @@
 import { memo } from "react";
 
-import { updateNode } from "../../actions/nodes";
-import {
-  resetSelectedNode,
-  resetSidebarAction,
-  setEditing,
-  setSelectedNode,
-} from "../../actions/state";
+import { resetSelectedNode, setEditing, setSelectedNode } from "../../actions/state";
 import useEditing from "../../hooks/use-editing";
 import useSidebarAction from "../../hooks/use-sidebar-action-node";
-import { validateName } from "../../lib/utils";
 import { Node } from "../../types/types";
 import { IconDocument, IconFilePen } from "../Icons";
 import EditableNameInput from "../Reusable/EditableNameInput";
@@ -31,11 +24,6 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
     await setEditing(document);
   };
 
-  const handleDocumentSave = async (newName: string) => {
-    await updateNode({ ...document, name: newName });
-    await resetSidebarAction();
-  };
-
   return (
     <FileTreeEntryLayout
       icon={isActive ? <IconFilePen /> : <IconDocument className="!h-3.5" />}
@@ -46,11 +34,9 @@ const RenderDocument = ({ document }: RenderDocumentProps) => {
     >
       <EditableNameInput
         key={document.id}
+        node={document}
         isEditing={isEditing}
-        initialValue={document.name}
-        onSave={handleDocumentSave}
         onCancel={resetSelectedNode}
-        validateFn={validateName}
         displaySuffix=".md"
         textClassName="file-tree-entry-text"
       />

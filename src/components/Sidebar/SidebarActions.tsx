@@ -7,7 +7,7 @@ import useEditing from "../../hooks/use-editing";
 import useSelectedNode from "../../hooks/use-selected-node";
 import useSidebarAction from "../../hooks/use-sidebar-action-node";
 import { Node } from "../../types/types";
-import { IconDownload, IconFolderPlus, IconPlus, IconTrash } from "../Icons";
+import { IconDownload, IconFolderPlus, IconPencil, IconPlus, IconTrash } from "../Icons";
 import DeleteModal from "../Modal/DeleteModal";
 import Button from "../Reusable/Button";
 
@@ -16,11 +16,17 @@ const SidebarActions = () => {
   const sidebarAction = useSidebarAction();
   const selectedNode = useSelectedNode();
 
+  const currentNode = selectedNode ? selectedNode : editing;
+
   const handleCreateNewNode = async (type: Node["type"]) =>
-    await createNode(type, selectedNode?.id);
+    await createNode(type, selectedNode?.type === "FOLDER" ? selectedNode?.id : -1);
 
   const handleExportAllDocuments = async () => {
     exportDocuments();
+  };
+
+  const handleRename = async () => {
+    await setSidebarAction(currentNode!, "RENAME");
   };
 
   useEffect(() => {
@@ -37,7 +43,7 @@ const SidebarActions = () => {
   }, [editing]);
 
   const handleStartDelete = async () => {
-    await setSidebarAction(editing!, "DELETE");
+    await setSidebarAction(selectedNode ? selectedNode : editing!, "DELETE");
   };
 
   const closeModal = async () => {
@@ -60,14 +66,22 @@ const SidebarActions = () => {
           className="sidebar-action"
         />
         <Button
-          disabled={editing === null}
-          tooltipMessage="Delete Document"
+          disabled={currentNode === null}
+          tooltipMessage={`Rename ${currentNode?.type ?? ""}`}
+          onClick={handleRename}
+          icon={IconPencil}
+          className="sidebar-action"
+        />
+        <Button
+          disabled={currentNode === null}
+          tooltipMessage={`Delete ${currentNode?.type ?? ""}`}
           onClick={handleStartDelete}
           icon={IconTrash}
           className="sidebar-action"
         />
         <Button
-          tooltipMessage="Export All Documents"
+          disabled={editing === null}
+          tooltipMessage="Export All Files"
           onClick={handleExportAllDocuments}
           icon={IconDownload}
           className="sidebar-action"
