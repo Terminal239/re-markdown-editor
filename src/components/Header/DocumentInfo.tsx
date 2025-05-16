@@ -22,7 +22,7 @@ const DocumentInfo = ({ editing }: Props) => {
       toast.error("Document name cannot be blank", {
         duration: 5000,
       });
-      
+
       setDocumentName(editing?.name ?? "");
       return;
     }

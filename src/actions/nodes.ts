@@ -8,15 +8,19 @@ const getNodes = async (parentId?: number) => {
   return nodes;
 };
 
-const createNode = async (type: Node["type"], id?: number) => {
+const createNode = async (type: Node["type"], parent: Node | null) => {
+  let parentId = -1;
+  if (parent !== null) parentId = parent.type === "FOLDER" ? parent.id : parentId;
+
+  console.log(parent);
   await db.transaction("rw", db.nodes, db.appState, async () => {
     let node: Node;
     switch (type) {
       case "FILE":
-        node = getDocumentInstance(id);
+        node = getDocumentInstance(parentId);
         break;
       case "FOLDER":
-        node = getFolderInstance(id);
+        node = getFolderInstance(parentId);
         break;
     }
 

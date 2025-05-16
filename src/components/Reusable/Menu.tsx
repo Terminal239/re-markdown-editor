@@ -29,7 +29,7 @@ const handleDelete = async (node: Node) => {
 };
 
 const handleNewNode = async (node: Node, type: Node["type"]) => {
-  await createNode(type, node.id);
+  await createNode(type, node);
 };
 
 const FolderContext = ({ node }: ContextProps) => {

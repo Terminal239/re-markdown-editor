@@ -26,28 +26,31 @@ const Editor = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // onEveryKeystroke: update local, then fire off save
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
-    setContent(newValue);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newValue = e.target.value;
+      setContent(newValue);
 
-    if (!editing) return;
+      if (!editing) return;
 
-    // Capture scroll before we touch Dexie
-    const scrollPos = textareaRef.current?.scrollTop ?? 0;
+      // Capture scroll before we touch Dexie
+      const scrollPos = textareaRef.current?.scrollTop ?? 0;
 
-    // Fire-and-forget; if you want back‑pressure you can await here
-    ;(async () => {
-      const updated: Node = { ...editing, content: newValue };
-      await updateNode(updated);
-      await setEditing(updated);
-      // Restore scroll (in case Dexie‑update bumped the DOM)
-      requestAnimationFrame(() => {
-        if (textareaRef.current) {
-          textareaRef.current.scrollTop = scrollPos;
-        }
-      });
-    })();
-  }, [editing]);
+      // Fire-and-forget; if you want back‑pressure you can await here
+      (async () => {
+        const updated: Node = { ...editing, content: newValue };
+        await updateNode(updated);
+        await setEditing(updated);
+        // Restore scroll (in case Dexie‑update bumped the DOM)
+        requestAnimationFrame(() => {
+          if (textareaRef.current) {
+            textareaRef.current.scrollTop = scrollPos;
+          }
+        });
+      })();
+    },
+    [editing],
+  );
 
   if (!isEditorExpanded) return null;
 
