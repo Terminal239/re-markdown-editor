@@ -22,7 +22,6 @@ const RenderFolder = ({ folder }: RenderFolderProps) => {
   const isEditing = folder.id === sidebarAction?.node.id && sidebarAction?.action === "RENAME";
 
   const toggleExpansion = async () => {
-    console.log(isEditing);
     if (!isEditing) {
       await setSelectedNode(folder);
       setIsExpanded((prev) => !prev);

@@ -10,9 +10,8 @@ const getNodes = async (parentId?: number) => {
 
 const createNode = async (type: Node["type"], parent: Node | null) => {
   let parentId = -1;
-  if (parent !== null) parentId = parent.type === "FOLDER" ? parent.id : parentId;
+  if (parent !== undefined) parentId = parent?.type === "FOLDER" ? parent?.id : parentId;
 
-  console.log(parent);
   await db.transaction("rw", db.nodes, db.appState, async () => {
     let node: Node;
     switch (type) {

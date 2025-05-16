@@ -17,7 +17,6 @@ const SidebarActions = () => {
   const selectedNode = useSelectedNode();
 
   const currentNode = selectedNode ? selectedNode : editing;
-
   const handleCreateNewNode = async (type: Node["type"]) => await createNode(type, selectedNode);
 
   const handleExportAllDocuments = async () => {
