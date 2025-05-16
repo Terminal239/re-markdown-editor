@@ -1,6 +1,7 @@
 # Markdown Editor
 
-A simple and efficient markdown editor built with React.
+A modern, efficient markdown editor built with React. Organize, edit, and export
+your markdown documents with a beautiful, responsive interface.
 
 ## Installation
 
@@ -35,16 +36,26 @@ A simple and efficient markdown editor built with React.
 
 2. Open your browser and navigate to `http://localhost:5173` (or the port
    specified in your terminal).
-3. Start editing your markdown files!
+3. Start editing and organizing your markdown files!
 
 ## Features
 
 - **Real-time Preview:** See your formatted Markdown output instantly as you
   type.
-- **File Operations:** Support for opening, saving, and creating new Markdown
-  files.
-- **Clean Interface:** Simple and distraction-free writing environment.
-- **File Tree:** Browse and open files from a sidebar file explorer.
+- **File & Folder Operations:** Create, rename, and delete both markdown files
+  and folders. Organize documents in a hierarchical file tree.
+- **Context Menus:** Right-click on files or folders for quick actions (rename,
+  delete, new file/folder).
+- **Bulk Export:** Export all your markdown files and folders as a ZIP archive.
+- **Single File Export:** Export the currently open markdown document as a `.md`
+  file.
+- **Sidebar Actions:** Quick-access buttons for creating files/folders,
+  renaming, deleting, and exporting.
+- **Persistent Storage:** All documents and folders are stored locally in your
+  browser (IndexedDB).
+- **Modern UI/UX:** Responsive design, tooltips, modals for delete confirmation,
+  and a distraction-free writing environment.
+- **Empty State UI:** Friendly message when no document is selected.
 
 ## Folder Structure
 
@@ -61,7 +72,7 @@ markdown-editor/
 │   ├── hooks/           # Custom React hooks
 │   ├── lib/             # Utility functions and libraries
 │   ├── reducer/         # State management logic
-│   ├── actions/         # Action creators
+│   ├── actions/         # Action creators and file/folder logic
 │   ├── styles/          # Global styles and themes
 │   ├── types/           # TypeScript type definitions
 │   ├── App.tsx          # Main application component
